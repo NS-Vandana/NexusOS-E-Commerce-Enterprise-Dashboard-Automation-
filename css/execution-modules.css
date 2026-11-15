@@ -1,0 +1,505 @@
+/* ════════════════════════════════════════════════════════════
+   NEXUSOS  ·  Section B – Central Execution Modules
+   Channel Integration Status + Active Workflow Control Matrix
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Section Container ──────────────────────────────────────── */
+.execution-section {
+  width: 100%;
+}
+
+/* ── 2-Column 1:2 Split Grid ────────────────────────────────── */
+.execution-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--space-4);
+  align-items: start;
+}
+
+/* ── Base Execution Card ────────────────────────────────────── */
+.exec-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  transition:
+    border-color var(--transition-base),
+    box-shadow var(--transition-base);
+  position: relative;
+}
+
+.exec-card:hover {
+  border-color: var(--color-border-hover);
+}
+
+/* ── Card Header ────────────────────────────────────────────── */
+.exec-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-5) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  background: rgba(255,255,255,0.015);
+}
+
+.exec-card__title-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.exec-card__title-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--emerald-500);
+  flex-shrink: 0;
+  box-shadow: 0 0 6px rgba(16,185,129,0.6);
+}
+
+.exec-card__title-dot--indigo {
+  background: var(--indigo-500);
+  box-shadow: 0 0 6px rgba(79,70,229,0.5);
+}
+
+.exec-card__title {
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Header Badge ───────────────────────────────────────────── */
+.exec-card__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 10.5px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.exec-card__badge--indigo {
+  background: rgba(79,70,229,0.12);
+  color: var(--indigo-400);
+  border: 1px solid rgba(79,70,229,0.2);
+}
+
+.exec-card__badge--emerald {
+  background: rgba(16,185,129,0.1);
+  color: var(--emerald-400);
+  border: 1px solid rgba(16,185,129,0.2);
+}
+
+/* ── Card Body ──────────────────────────────────────────────── */
+.exec-card__body {
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* ════════════════════════════════════════════════════════════
+   CHANNEL INTEGRATION LIST
+   ════════════════════════════════════════════════════════════ */
+
+.channel-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.channel-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-3);
+  border-radius: var(--radius-lg);
+  transition: background var(--transition-base);
+  cursor: default;
+  border: 1px solid transparent;
+}
+
+.channel-item:hover {
+  background: rgba(255,255,255,0.03);
+  border-color: var(--color-border);
+}
+
+.channel-item__left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+  flex: 1;
+}
+
+.channel-item__logo {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform var(--transition-spring);
+}
+
+.channel-item:hover .channel-item__logo {
+  transform: scale(1.05);
+}
+
+.channel-item__logo--amazon  { background: rgba(255,153,0,0.08); border: 1px solid rgba(255,153,0,0.15); }
+.channel-item__logo--flipkart { background: rgba(40,116,240,0.08); border: 1px solid rgba(40,116,240,0.15); }
+.channel-item__logo--shopify  { background: rgba(150,191,72,0.08); border: 1px solid rgba(150,191,72,0.15); }
+
+.channel-item__info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.channel-item__name {
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.channel-item__detail {
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.channel-item__right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+/* ── Channel Status Badges ──────────────────────────────────── */
+.channel-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: var(--radius-full);
+  font-size: 10.5px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.channel-status--polling {
+  background: rgba(251,191,36,0.1);
+  color: var(--amber-400);
+  border: 1px solid rgba(251,191,36,0.2);
+}
+
+.channel-status--rtd {
+  background: rgba(79,70,229,0.1);
+  color: var(--indigo-400);
+  border: 1px solid rgba(79,70,229,0.18);
+}
+
+.channel-status--live {
+  background: rgba(16,185,129,0.1);
+  color: var(--emerald-400);
+  border: 1px solid rgba(16,185,129,0.2);
+  box-shadow: 0 0 10px rgba(16,185,129,0.15);
+  animation: live-glow-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes live-glow-pulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(16,185,129,0.15); }
+  50%       { box-shadow: 0 0 16px rgba(16,185,129,0.3); }
+}
+
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--emerald-400);
+  animation: live-dot-blink 1.5s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes live-dot-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+.channel-item__interval {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--color-text-tertiary);
+  background: rgba(255,255,255,0.05);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255,255,255,0.07);
+}
+
+/* ── Channel Summary Stats ──────────────────────────────────── */
+.channel-summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.channel-summary__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+}
+
+.channel-summary__value {
+  font-family: var(--font-mono);
+  font-size: var(--text-md);
+  font-weight: var(--weight-bold);
+  color: var(--color-text-primary);
+}
+
+.channel-summary__label {
+  font-size: 10px;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: var(--weight-medium);
+}
+
+.channel-summary__divider {
+  width: 1px;
+  height: 28px;
+  background: var(--color-border);
+  flex-shrink: 0;
+}
+
+/* ════════════════════════════════════════════════════════════
+   WORKFLOW CONTROL MATRIX
+   ════════════════════════════════════════════════════════════ */
+
+.workflow-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.workflow-item {
+  padding: var(--space-4) var(--space-4);
+  border-radius: var(--radius-lg);
+  border: 1px solid transparent;
+  transition:
+    background var(--transition-base),
+    border-color var(--transition-base);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.workflow-item:hover {
+  background: rgba(255,255,255,0.02);
+  border-color: var(--color-border);
+}
+
+/* Separator between items (not last) */
+.workflow-item:not(:last-child) {
+  border-bottom: 1px solid var(--color-border);
+  border-radius: 0;
+  padding-bottom: var(--space-4);
+  margin-bottom: var(--space-2);
+}
+
+.workflow-item:not(:last-child):hover {
+  background: rgba(255,255,255,0.02);
+  border-color: var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+/* ── Workflow Item Top Row ───────────────────────────────────── */
+.workflow-item__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.workflow-item__left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+  flex: 1;
+}
+
+/* Active status dot */
+.workflow-item__status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.workflow-item__status-dot--active {
+  background: var(--emerald-500);
+  box-shadow: 0 0 6px rgba(16,185,129,0.5);
+}
+
+.workflow-item__status-dot--active::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: var(--radius-full);
+  background: var(--emerald-500);
+  opacity: 0;
+  animation: pulse-ring 3s ease-out infinite;
+}
+
+.workflow-item__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.workflow-item__title {
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  letter-spacing: -0.01em;
+}
+
+.workflow-item__engine-id {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.06em;
+  color: var(--indigo-400);
+  background: rgba(79,70,229,0.1);
+  border: 1px solid rgba(79,70,229,0.2);
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.workflow-item__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.workflow-item__description {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-relaxed);
+  padding-left: calc(8px + var(--space-3));  /* Align with title (past the dot) */
+}
+
+/* ════════════════════════════════════════════════════════════
+   iOS-STYLE TOGGLE SWITCH
+   Custom slider with indigo active state
+   ════════════════════════════════════════════════════════════ */
+
+.toggle-switch {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.toggle-switch__input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.toggle-switch__track {
+  display: inline-flex;
+  align-items: center;
+  width: 40px;
+  height: 22px;
+  background: var(--slate-700);
+  border-radius: var(--radius-full);
+  padding: 2px;
+  transition:
+    background var(--transition-base),
+    box-shadow var(--transition-base);
+  position: relative;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.toggle-switch__thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: var(--radius-full);
+  background: white;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+  transform: translateX(0);
+  transition:
+    transform var(--transition-spring),
+    width var(--transition-base),
+    box-shadow var(--transition-base);
+  will-change: transform;
+}
+
+/* Checked state */
+.toggle-switch__input:checked + .toggle-switch__track {
+  background: var(--indigo-600);
+  border-color: var(--indigo-700);
+  box-shadow: 0 0 10px rgba(79,70,229,0.35), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+.toggle-switch__input:checked + .toggle-switch__track .toggle-switch__thumb {
+  transform: translateX(18px);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.5), 0 0 6px rgba(255,255,255,0.15);
+}
+
+/* Pressed feel on thumb */
+.toggle-switch:active .toggle-switch__thumb {
+  width: 18px;
+}
+
+.toggle-switch__input:checked:active + .toggle-switch__track .toggle-switch__thumb {
+  transform: translateX(16px);
+  width: 18px;
+}
+
+/* Focus visible for accessibility */
+.toggle-switch__input:focus-visible + .toggle-switch__track {
+  outline: 2px solid var(--indigo-400);
+  outline-offset: 2px;
+}
+
+/* ── Responsive Breakpoints ─────────────────────────────────── */
+@media (max-width: 1100px) {
+  .execution-grid {
+    grid-template-columns: 1fr;
+  }
+}

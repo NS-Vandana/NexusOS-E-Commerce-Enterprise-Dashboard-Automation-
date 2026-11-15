@@ -1,0 +1,24 @@
+{
+  "name": "nexusos-ecommerce-automation",
+  "version": "2.0.0",
+  "description": "Enterprise-grade D2C E-commerce Automation Operating System dashboard with 50 intelligent automation engines and real-time telemetry.",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve . -p 8000",
+    "dev": "python -m http.server 8000",
+    "serve": "npx serve ."
+  },
+  "keywords": [
+    "ecommerce",
+    "d2c",
+    "automation",
+    "dashboard",
+    "linear-style",
+    "vercel-style",
+    "telemetry",
+    "logistics",
+    "supply-chain"
+  ],
+  "author": "NexusOS Engineering",
+  "license": "MIT"
+}

@@ -1,0 +1,258 @@
+/* ════════════════════════════════════════════════════════════
+   NEXUSOS  ·  Section A – Core Telemetry Metric Cards
+   4-column responsive grid with KPI cards
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Section Container ──────────────────────────────────────── */
+.metrics-section {
+  width: 100%;
+}
+
+/* ── 4-Column Grid ──────────────────────────────────────────── */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+}
+
+/* ── Base Card ──────────────────────────────────────────────── */
+.metric-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  position: relative;
+  overflow: hidden;
+  transition:
+    border-color var(--transition-base),
+    box-shadow var(--transition-base),
+    transform var(--transition-spring);
+  cursor: default;
+
+  /* Subtle inner top glow line */
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+.metric-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.metric-card:hover {
+  border-color: var(--color-border-hover);
+  transform: translateY(-2px);
+}
+
+.metric-card:hover::before {
+  opacity: 1;
+}
+
+/* Per-card accent colors */
+.metric-card--actions::before    { background: linear-gradient(90deg, transparent, var(--indigo-600), transparent); }
+.metric-card--hours::before      { background: linear-gradient(90deg, transparent, var(--emerald-500), transparent); }
+.metric-card--sync::before       { background: linear-gradient(90deg, transparent, var(--emerald-500), transparent); }
+.metric-card--rto::before        { background: linear-gradient(90deg, transparent, var(--rose-500), transparent); }
+
+.metric-card--actions:hover  { box-shadow: var(--shadow-glow-indigo); }
+.metric-card--hours:hover    { box-shadow: var(--shadow-glow-emerald); }
+.metric-card--sync:hover     { box-shadow: var(--shadow-glow-emerald); }
+.metric-card--rto:hover      { box-shadow: var(--shadow-glow-rose); }
+
+/* Background texture per card */
+.metric-card--actions { background: linear-gradient(135deg, rgba(79,70,229,0.04) 0%, var(--color-surface) 60%); }
+.metric-card--hours   { background: linear-gradient(135deg, rgba(16,185,129,0.04) 0%, var(--color-surface) 60%); }
+.metric-card--sync    { background: linear-gradient(135deg, rgba(16,185,129,0.04) 0%, var(--color-surface) 60%); }
+.metric-card--rto     { background: linear-gradient(135deg, rgba(244,63,94,0.04) 0%, var(--color-surface) 60%); }
+
+/* ── Card Header ────────────────────────────────────────────── */
+.metric-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* Icon wrap variants */
+.metric-card__icon-wrap {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform var(--transition-spring);
+}
+
+.metric-card:hover .metric-card__icon-wrap {
+  transform: scale(1.08);
+}
+
+.metric-card__icon-wrap--indigo {
+  background: rgba(79,70,229,0.12);
+  color: var(--indigo-400);
+  border: 1px solid rgba(79,70,229,0.2);
+}
+
+.metric-card__icon-wrap--emerald {
+  background: rgba(16,185,129,0.12);
+  color: var(--emerald-400);
+  border: 1px solid rgba(16,185,129,0.2);
+}
+
+.metric-card__icon-wrap--rose {
+  background: rgba(244,63,94,0.12);
+  color: var(--rose-400);
+  border: 1px solid rgba(244,63,94,0.2);
+}
+
+.metric-card__label {
+  font-size: 11.5px;
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  line-height: var(--leading-tight);
+}
+
+/* ── Card Body ──────────────────────────────────────────────── */
+.metric-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.metric-card__value {
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-extrabold);
+  letter-spacing: -0.04em;
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+
+.metric-card__value--emerald {
+  color: var(--emerald-400);
+}
+
+.metric-card__value--rose {
+  color: var(--rose-500);
+}
+
+.metric-card__unit {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  letter-spacing: -0.02em;
+  opacity: 0.7;
+}
+
+/* ── Progress Track (Card 1) ────────────────────────────────── */
+.metric-card__progress-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(255,255,255,0.06);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin-top: var(--space-1);
+}
+
+.metric-card__progress-fill {
+  height: 100%;
+  width: var(--progress, 0%);
+  background: linear-gradient(90deg, var(--indigo-600), var(--indigo-400));
+  border-radius: var(--radius-full);
+  position: relative;
+  transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Shimmer on progress fill */
+.metric-card__progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: shimmer-slide 2s ease-in-out infinite;
+}
+
+@keyframes shimmer-slide {
+  0%   { left: -100%; }
+  100% { left: 200%; }
+}
+
+/* ── Card Footer ────────────────────────────────────────────── */
+.metric-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-border);
+}
+
+.metric-card__subtext {
+  font-size: var(--text-sm);
+  color: var(--color-text-tertiary);
+  font-weight: var(--weight-medium);
+}
+
+.metric-card__subtext--success {
+  color: var(--emerald-500);
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 11px;
+}
+
+/* ── Status Chips ───────────────────────────────────────────── */
+.metric-card__chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: 10.5px;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.metric-card__chip--indigo {
+  background: rgba(79,70,229,0.15);
+  color: var(--indigo-400);
+  border: 1px solid rgba(79,70,229,0.25);
+}
+
+.metric-card__chip--emerald {
+  background: rgba(16,185,129,0.12);
+  color: var(--emerald-400);
+  border: 1px solid rgba(16,185,129,0.2);
+}
+
+.metric-card__chip--rose {
+  background: rgba(244,63,94,0.12);
+  color: var(--rose-400);
+  border: 1px solid rgba(244,63,94,0.2);
+}
+
+/* ── Responsive Breakpoints ─────────────────────────────────── */
+@media (max-width: 1200px) {
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+}

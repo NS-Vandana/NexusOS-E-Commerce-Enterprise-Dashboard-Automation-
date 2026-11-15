@@ -1,0 +1,2392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="NexusOS — Enterprise D2C E-Commerce Automation Operating System. 50 intelligent automations across 5 operational modules."/>
+<title>NexusOS · Enterprise Automation OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+/* ══════════════════════════════════════════════════════════════
+   NEXUSOS DESIGN SYSTEM — TOKENS
+══════════════════════════════════════════════════════════════ */
+:root{
+  --bg:          #080d18;
+  --bg2:         #0d1424;
+  --surface:     #111827;
+  --surface2:    #161f30;
+  --surface3:    #1c2a40;
+  --border:      rgba(255,255,255,.07);
+  --border2:     rgba(255,255,255,.12);
+  --indigo:      #4f46e5;
+  --indigo-l:    #6366f1;
+  --indigo-d:    #3730a3;
+  --indigo-glow: rgba(79,70,229,.25);
+  --emerald:     #10b981;
+  --emerald-l:   #34d399;
+  --emerald-bg:  rgba(16,185,129,.1);
+  --emerald-bd:  rgba(16,185,129,.2);
+  --amber:       #f59e0b;
+  --amber-bg:    rgba(245,158,11,.1);
+  --amber-bd:    rgba(245,158,11,.2);
+  --rose:        #f43f5e;
+  --rose-bg:     rgba(244,63,94,.1);
+  --rose-bd:     rgba(244,63,94,.2);
+  --sky:         #38bdf8;
+  --sky-bg:      rgba(56,189,248,.08);
+  --txt:         #f1f5f9;
+  --txt2:        #94a3b8;
+  --txt3:        #475569;
+  --sidebar-w:   264px;
+  --topbar-h:    58px;
+  --font:        'Inter',system-ui,sans-serif;
+  --mono:        'JetBrains Mono',monospace;
+  --r-sm:        4px;
+  --r-md:        8px;
+  --r-lg:        12px;
+  --r-xl:        16px;
+  --r-full:      9999px;
+  --shadow:      0 4px 24px rgba(0,0,0,.5);
+  --shadow-lg:   0 8px 40px rgba(0,0,0,.6);
+  --trans:       180ms ease;
+  --trans-sp:    240ms cubic-bezier(.34,1.56,.64,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-family:var(--font);background:var(--bg);color:var(--txt);height:100dvh;overflow:hidden;line-height:1.5}
+a{color:inherit;text-decoration:none}
+ul,ol{list-style:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+img{display:block;max-width:100%}
+/* Grid bg */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:linear-gradient(rgba(79,70,229,.018) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(79,70,229,.018) 1px,transparent 1px);
+  background-size:44px 44px;pointer-events:none;z-index:0;
+}
+/* Ambient glows */
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 600px 400px at 20% 10%,rgba(79,70,229,.06) 0%,transparent 70%),
+    radial-gradient(ellipse 500px 300px at 80% 80%,rgba(16,185,129,.04) 0%,transparent 70%);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   APP SHELL
+══════════════════════════════════════════════════════════════ */
+.shell{display:flex;height:100dvh;width:100vw;overflow:hidden;position:relative;z-index:1}
+.main{flex:1;min-width:0;display:flex;flex-direction:column;height:100dvh;margin-left:var(--sidebar-w)}
+
+/* ══════════════════════════════════════════════════════════════
+   SIDEBAR
+══════════════════════════════════════════════════════════════ */
+.sidebar{
+  position:fixed;top:0;left:0;width:var(--sidebar-w);height:100dvh;
+  background:linear-gradient(180deg,#0a0f1e 0%,#080d18 100%);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;z-index:100;
+  box-shadow:1px 0 0 rgba(255,255,255,.03),4px 0 32px rgba(0,0,0,.4);
+}
+/* Brand */
+.sb-brand{
+  display:flex;align-items:center;gap:10px;
+  padding:0 18px;height:var(--topbar-h);
+  border-bottom:1px solid var(--border);flex-shrink:0;
+}
+.sb-brand-mark{
+  width:30px;height:30px;border-radius:8px;
+  background:linear-gradient(135deg,var(--indigo),var(--indigo-d));
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  box-shadow:0 0 16px var(--indigo-glow);
+}
+.sb-brand-mark svg{width:16px;height:16px}
+.sb-brand-name{
+  font-size:17px;font-weight:800;letter-spacing:-.04em;
+  background:linear-gradient(135deg,#e0e7ff 0%,var(--indigo-l) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.sb-version{
+  font-size:9.5px;font-weight:700;letter-spacing:.05em;
+  background:var(--indigo);color:#fff;
+  padding:2px 7px;border-radius:var(--r-full);
+  box-shadow:0 0 10px rgba(79,70,229,.4);
+}
+/* Nav */
+.sb-nav{flex:1;padding:12px 10px;overflow-y:auto;scrollbar-width:none}
+.sb-nav::-webkit-scrollbar{display:none}
+.sb-section-label{
+  font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--txt3);padding:8px 10px 4px;margin-top:4px;
+}
+.sb-nav-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 10px;border-radius:var(--r-md);
+  color:var(--txt2);font-size:12.5px;font-weight:500;
+  cursor:pointer;transition:all var(--trans);
+  margin-bottom:2px;position:relative;
+  border:1px solid transparent;
+  user-select:none;
+}
+.sb-nav-item:hover{background:rgba(255,255,255,.04);color:var(--txt)}
+.sb-nav-item.active{
+  background:var(--indigo);color:#fff;
+  box-shadow:0 2px 12px rgba(79,70,229,.35),inset 0 1px 0 rgba(255,255,255,.1);
+  border-color:var(--indigo-d);
+}
+.sb-nav-icon{
+  width:18px;height:18px;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;opacity:.8;
+}
+.sb-nav-item.active .sb-nav-icon{opacity:1}
+.sb-nav-label{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sb-nav-count{
+  font-family:var(--mono);font-size:9.5px;font-weight:600;
+  background:rgba(255,255,255,.12);color:inherit;
+  padding:1px 6px;border-radius:var(--r-full);flex-shrink:0;
+}
+.sb-nav-item.active .sb-nav-count{background:rgba(255,255,255,.2)}
+/* Sidebar bottom */
+.sb-bottom{
+  border-top:1px solid var(--border);padding:14px 14px;
+  background:rgba(0,0,0,.15);flex-shrink:0;
+}
+.sb-profile{display:flex;align-items:center;gap:10px}
+.sb-avatar{
+  width:34px;height:34px;border-radius:var(--r-md);
+  background:linear-gradient(135deg,var(--indigo-d),var(--indigo));
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:800;color:#fff;flex-shrink:0;
+  box-shadow:0 2px 8px rgba(79,70,229,.3);
+  position:relative;
+}
+.sb-avatar::after{
+  content:'';position:absolute;bottom:-2px;right:-2px;
+  width:9px;height:9px;border-radius:50%;
+  background:var(--emerald);border:2px solid var(--bg);
+  box-shadow:0 0 6px rgba(16,185,129,.5);
+}
+.sb-profile-info{flex:1;min-width:0}
+.sb-profile-name{font-size:12px;font-weight:600;color:var(--txt)}
+.sb-profile-sub{font-size:10.5px;color:var(--txt3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-sys-badge{
+  display:flex;align-items:center;gap:5px;
+  padding:5px 10px;background:var(--emerald-bg);
+  border:1px solid var(--emerald-bd);border-radius:var(--r-md);
+  margin-top:10px;
+}
+.sb-sys-dot{width:6px;height:6px;border-radius:50%;background:var(--emerald);animation:pulse-dot 2s ease-out infinite}
+.sb-sys-text{font-size:10.5px;font-weight:600;color:var(--emerald);letter-spacing:.02em}
+.sb-sys-count{font-family:var(--mono);font-size:10px;color:var(--emerald);margin-left:auto;opacity:.8}
+
+/* ══════════════════════════════════════════════════════════════
+   TOP BAR
+══════════════════════════════════════════════════════════════ */
+.topbar{
+  position:fixed;top:0;left:var(--sidebar-w);right:0;height:var(--topbar-h);
+  background:rgba(8,13,24,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;z-index:90;gap:16px;
+}
+.topbar::after{
+  content:'';position:absolute;bottom:-1px;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(79,70,229,.5) 30%,rgba(16,185,129,.3) 70%,transparent);
+}
+.tb-left{display:flex;align-items:center;gap:14px;min-width:0}
+.tb-page-title{font-size:15px;font-weight:700;letter-spacing:-.03em;color:var(--txt);white-space:nowrap}
+.tb-status{
+  display:flex;align-items:center;gap:6px;
+  padding:4px 10px;border-radius:var(--r-full);
+  background:var(--emerald-bg);border:1px solid var(--emerald-bd);
+  font-size:11px;font-weight:600;color:var(--emerald);white-space:nowrap;
+  flex-shrink:0;
+}
+.tb-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.tb-stat{
+  display:flex;flex-direction:column;align-items:flex-end;gap:1px;
+  padding:6px 12px;border-radius:var(--r-lg);
+  background:rgba(79,70,229,.06);border:1px solid rgba(79,70,229,.14);
+  transition:background var(--trans);cursor:default;
+}
+.tb-stat:hover{background:rgba(79,70,229,.1)}
+.tb-stat-label{font-size:9.5px;color:var(--txt3);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.tb-stat-val{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--indigo-l)}
+.tb-clock{
+  font-family:var(--mono);font-size:11px;font-weight:500;color:var(--txt3);
+  padding:5px 10px;border:1px solid var(--border);border-radius:var(--r-md);
+  background:rgba(255,255,255,.02);white-space:nowrap;
+}
+.pulse-dot{width:7px;height:7px;border-radius:50%;background:var(--emerald);position:relative;flex-shrink:0}
+.pulse-dot::before{
+  content:'';position:absolute;inset:-3px;border-radius:50%;
+  background:var(--emerald);opacity:0;animation:pulse-dot 2s ease-out infinite;
+}
+.pulse-dot::after{
+  content:'';position:absolute;inset:-6px;border-radius:50%;
+  background:var(--emerald);opacity:0;animation:pulse-dot 2s ease-out infinite .4s;
+}
+@keyframes pulse-dot{0%{opacity:.5;transform:scale(1)}100%{opacity:0;transform:scale(2.4)}}
+
+/* ══════════════════════════════════════════════════════════════
+   WORKSPACE
+══════════════════════════════════════════════════════════════ */
+.workspace{
+  flex:1;overflow-y:auto;overflow-x:hidden;
+  padding:24px;
+  padding-top:calc(var(--topbar-h) + 24px);
+  display:flex;flex-direction:column;gap:20px;
+  scrollbar-width:thin;scrollbar-color:rgba(79,70,229,.3) transparent;
+}
+.workspace::-webkit-scrollbar{width:4px}
+.workspace::-webkit-scrollbar-thumb{background:rgba(79,70,229,.3);border-radius:var(--r-full)}
+
+/* ══════════════════════════════════════════════════════════════
+   TAB STRIP
+══════════════════════════════════════════════════════════════ */
+.tab-strip{
+  display:flex;align-items:center;gap:4px;
+  padding:3px;background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-lg);width:fit-content;max-width:100%;overflow-x:auto;
+  scrollbar-width:none;
+}
+.tab-strip::-webkit-scrollbar{display:none}
+.tab-pill{
+  display:flex;align-items:center;gap:7px;
+  padding:7px 14px;border-radius:var(--r-md);
+  font-size:12px;font-weight:500;color:var(--txt2);
+  cursor:pointer;transition:all var(--trans);white-space:nowrap;flex-shrink:0;
+  border:1px solid transparent;
+}
+.tab-pill:hover{background:rgba(255,255,255,.04);color:var(--txt)}
+.tab-pill.active{
+  background:var(--indigo);color:#fff;
+  box-shadow:0 2px 10px rgba(79,70,229,.35);border-color:var(--indigo-d);
+}
+.tab-pill-icon{width:14px;height:14px;opacity:.7}
+.tab-pill.active .tab-pill-icon{opacity:1}
+
+/* ══════════════════════════════════════════════════════════════
+   TELEMETRY KPI GRID
+══════════════════════════════════════════════════════════════ */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.kpi-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);
+  padding:18px 20px;display:flex;flex-direction:column;gap:12px;
+  position:relative;overflow:hidden;
+  transition:border-color var(--trans),box-shadow var(--trans),transform var(--trans-sp);
+  cursor:default;
+}
+.kpi-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  opacity:0;transition:opacity var(--trans);
+}
+.kpi-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.kpi-card:hover::before{opacity:1}
+.kpi-card--indigo{background:linear-gradient(135deg,rgba(79,70,229,.05) 0%,var(--surface) 60%)}
+.kpi-card--indigo::before{background:linear-gradient(90deg,transparent,var(--indigo),transparent)}
+.kpi-card--indigo:hover{box-shadow:0 0 24px rgba(79,70,229,.2)}
+.kpi-card--emerald{background:linear-gradient(135deg,rgba(16,185,129,.05) 0%,var(--surface) 60%)}
+.kpi-card--emerald::before{background:linear-gradient(90deg,transparent,var(--emerald),transparent)}
+.kpi-card--emerald:hover{box-shadow:0 0 24px rgba(16,185,129,.15)}
+.kpi-card--amber{background:linear-gradient(135deg,rgba(245,158,11,.05) 0%,var(--surface) 60%)}
+.kpi-card--amber::before{background:linear-gradient(90deg,transparent,var(--amber),transparent)}
+.kpi-card--amber:hover{box-shadow:0 0 24px rgba(245,158,11,.15)}
+.kpi-card--rose{background:linear-gradient(135deg,rgba(244,63,94,.05) 0%,var(--surface) 60%)}
+.kpi-card--rose::before{background:linear-gradient(90deg,transparent,var(--rose),transparent)}
+.kpi-card--rose:hover{box-shadow:0 0 24px rgba(244,63,94,.15)}
+.kpi-hd{display:flex;align-items:center;gap:10px}
+.kpi-icon{
+  width:34px;height:34px;border-radius:var(--r-md);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:transform var(--trans-sp);
+}
+.kpi-card:hover .kpi-icon{transform:scale(1.08)}
+.kpi-icon--indigo{background:rgba(79,70,229,.12);color:var(--indigo-l);border:1px solid rgba(79,70,229,.2)}
+.kpi-icon--emerald{background:rgba(16,185,129,.12);color:var(--emerald-l);border:1px solid var(--emerald-bd)}
+.kpi-icon--amber{background:rgba(245,158,11,.1);color:var(--amber);border:1px solid var(--amber-bd)}
+.kpi-icon--rose{background:rgba(244,63,94,.1);color:var(--rose);border:1px solid var(--rose-bd)}
+.kpi-label{font-size:11px;font-weight:600;color:var(--txt2);letter-spacing:.03em;text-transform:uppercase;line-height:1.2}
+.kpi-val{font-size:30px;font-weight:900;letter-spacing:-.05em;color:var(--txt);line-height:1}
+.kpi-val span{font-size:17px;font-weight:600;letter-spacing:-.02em;opacity:.65}
+.kpi-val--emerald{color:var(--emerald-l)}
+.kpi-val--rose{color:var(--rose)}
+.kpi-ft{display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid var(--border)}
+.kpi-sub{font-size:11.5px;color:var(--txt3);font-weight:500}
+.kpi-sub--up{color:var(--emerald);font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.04em}
+.kpi-chip{
+  font-size:10px;font-weight:700;padding:2px 8px;border-radius:var(--r-full);
+  letter-spacing:.04em;white-space:nowrap;
+}
+.kpi-chip--indigo{background:rgba(79,70,229,.15);color:var(--indigo-l);border:1px solid rgba(79,70,229,.25)}
+.kpi-chip--emerald{background:var(--emerald-bg);color:var(--emerald-l);border:1px solid var(--emerald-bd)}
+.kpi-chip--amber{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-bd)}
+.kpi-chip--rose{background:var(--rose-bg);color:var(--rose);border:1px solid var(--rose-bd)}
+
+/* Progress bar for KPI 1 */
+.kpi-progress{width:100%;height:3px;background:rgba(255,255,255,.06);border-radius:var(--r-full);overflow:hidden;margin-top:2px}
+.kpi-progress-fill{height:100%;border-radius:var(--r-full);background:linear-gradient(90deg,var(--indigo),var(--indigo-l));position:relative}
+.kpi-progress-fill::after{
+  content:'';position:absolute;top:0;left:-100%;right:0;bottom:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);
+  animation:shimmer 2s ease-in-out infinite;
+}
+@keyframes shimmer{0%{left:-100%}100%{left:200%}}
+
+/* ══════════════════════════════════════════════════════════════
+   SPLIT VIEW
+══════════════════════════════════════════════════════════════ */
+.split-view{display:grid;grid-template-columns:1fr 2fr;gap:14px;align-items:start}
+
+/* ── LEFT: Marketplace Integrations Center ── */
+.market-panel{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-xl);overflow:hidden;
+}
+.panel-hd{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:16px 18px;border-bottom:1px solid var(--border);
+  background:rgba(255,255,255,.015);
+}
+.panel-hd-left{display:flex;align-items:center;gap:8px;min-width:0}
+.panel-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.panel-dot--emerald{background:var(--emerald);box-shadow:0 0 8px rgba(16,185,129,.5)}
+.panel-dot--indigo{background:var(--indigo);box-shadow:0 0 8px rgba(79,70,229,.5)}
+.panel-title{font-size:13px;font-weight:600;color:var(--txt);letter-spacing:-.02em}
+.panel-badge{
+  font-size:10px;font-weight:600;padding:3px 9px;border-radius:var(--r-full);
+  white-space:nowrap;flex-shrink:0;
+}
+.panel-badge--indigo{background:rgba(79,70,229,.12);color:var(--indigo-l);border:1px solid rgba(79,70,229,.2)}
+.panel-badge--emerald{background:var(--emerald-bg);color:var(--emerald-l);border:1px solid var(--emerald-bd)}
+.panel-body{padding:12px}
+
+/* Channel rows */
+.ch-list{display:flex;flex-direction:column;gap:3px}
+.ch-item{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:10px 10px;border-radius:var(--r-lg);
+  border:1px solid transparent;transition:all var(--trans);cursor:default;
+}
+.ch-item:hover{background:rgba(255,255,255,.025);border-color:var(--border)}
+.ch-left{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+.ch-logo{
+  width:36px;height:36px;border-radius:var(--r-md);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  font-size:10px;font-weight:800;letter-spacing:.02em;transition:transform var(--trans-sp);
+}
+.ch-item:hover .ch-logo{transform:scale(1.06)}
+.ch-logo--amz{background:rgba(255,153,0,.1);border:1px solid rgba(255,153,0,.18);color:#FF9900}
+.ch-logo--fk{background:rgba(40,116,240,.1);border:1px solid rgba(40,116,240,.18);color:#2874F0}
+.ch-logo--shop{background:rgba(150,191,72,.1);border:1px solid rgba(150,191,72,.18);color:#96BF48}
+.ch-logo--myn{background:rgba(248,68,100,.1);border:1px solid rgba(248,68,100,.18);color:#F84464}
+.ch-logo--meso{background:rgba(79,70,229,.1);border:1px solid rgba(79,70,229,.18);color:var(--indigo-l)}
+.ch-info{min-width:0;display:flex;flex-direction:column;gap:2px}
+.ch-name{font-size:12.5px;font-weight:600;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ch-detail{font-size:10.5px;color:var(--txt3)}
+.ch-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.ch-status{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:3px 8px;border-radius:var(--r-full);
+  font-size:10px;font-weight:700;letter-spacing:.04em;white-space:nowrap;
+}
+.ch-status--live{background:var(--emerald-bg);color:var(--emerald-l);border:1px solid var(--emerald-bd);animation:live-glow 2.5s ease-in-out infinite}
+.ch-status--poll{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-bd)}
+.ch-status--rtd{background:rgba(79,70,229,.1);color:var(--indigo-l);border:1px solid rgba(79,70,229,.2)}
+.ch-status--idle{background:rgba(255,255,255,.05);color:var(--txt3);border:1px solid var(--border)}
+@keyframes live-glow{0%,100%{box-shadow:0 0 6px rgba(16,185,129,.15)}50%{box-shadow:0 0 16px rgba(16,185,129,.3)}}
+.blink-dot{width:5px;height:5px;border-radius:50%;background:currentColor;animation:blink 1.4s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.ch-interval{
+  font-family:var(--mono);font-size:10px;color:var(--txt3);
+  background:rgba(255,255,255,.04);border:1px solid var(--border);
+  padding:2px 6px;border-radius:var(--r-sm);
+}
+
+/* Channel summary stats */
+.ch-stats{
+  display:flex;align-items:center;gap:0;
+  padding:10px 12px;background:rgba(255,255,255,.02);
+  border:1px solid var(--border);border-radius:var(--r-lg);margin-top:10px;
+}
+.ch-stat{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1}
+.ch-stat-val{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--txt)}
+.ch-stat-lbl{font-size:9.5px;color:var(--txt3);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.ch-stat-div{width:1px;height:28px;background:var(--border);flex-shrink:0}
+
+/* ── RIGHT: Workflow Matrix Studio ── */
+.workflow-panel{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-xl);overflow:hidden;
+}
+.wf-body{padding:8px}
+.wf-tab-content{display:none}
+.wf-tab-content.active{display:block}
+.wf-list{display:flex;flex-direction:column;gap:1px}
+.wf-item{
+  padding:14px 14px;border-radius:var(--r-lg);
+  border:1px solid transparent;
+  transition:all var(--trans);display:flex;flex-direction:column;gap:10px;
+}
+.wf-item:hover{background:rgba(255,255,255,.025);border-color:var(--border)}
+.wf-item-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.wf-item-left{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+.wf-status-dot{
+  width:8px;height:8px;border-radius:50%;flex-shrink:0;
+  transition:box-shadow var(--trans);
+}
+.wf-status-dot--on{background:var(--emerald);box-shadow:0 0 8px rgba(16,185,129,.5)}
+.wf-status-dot--off{background:var(--txt3)}
+.wf-meta{display:flex;align-items:center;gap:8px;min-width:0;flex-wrap:wrap}
+.wf-title{font-size:12.5px;font-weight:600;color:var(--txt);letter-spacing:-.01em}
+.wf-sys-id{
+  font-family:var(--mono);font-size:9.5px;font-weight:700;
+  color:var(--indigo-l);background:rgba(79,70,229,.1);
+  border:1px solid rgba(79,70,229,.2);padding:2px 7px;
+  border-radius:var(--r-full);white-space:nowrap;flex-shrink:0;
+}
+.wf-desc{
+  font-size:11.5px;color:var(--txt2);line-height:1.65;
+  padding-left:calc(8px + 10px);
+}
+.wf-divider{height:1px;background:var(--border);margin:2px 0}
+/* Toggle */
+.toggle{display:inline-flex;align-items:center;cursor:pointer;flex-shrink:0}
+.toggle input{position:absolute;opacity:0;width:0;height:0;pointer-events:none}
+.toggle-track{
+  width:38px;height:21px;border-radius:var(--r-full);
+  background:var(--surface3);border:1px solid rgba(255,255,255,.08);
+  padding:2px;display:flex;align-items:center;
+  transition:background var(--trans),box-shadow var(--trans);position:relative;
+}
+.toggle-thumb{
+  width:15px;height:15px;border-radius:50%;
+  background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.4);
+  transform:translateX(0);transition:transform var(--trans-sp),width var(--trans);
+  will-change:transform;flex-shrink:0;
+}
+.toggle input:checked + .toggle-track{
+  background:var(--indigo);border-color:var(--indigo-d);
+  box-shadow:0 0 12px rgba(79,70,229,.35),inset 0 1px 0 rgba(255,255,255,.1);
+}
+.toggle input:checked + .toggle-track .toggle-thumb{transform:translateX(17px)}
+.toggle:active .toggle-thumb{width:17px}
+.toggle input:focus-visible + .toggle-track{outline:2px solid var(--indigo-l);outline-offset:2px}
+
+/* ══════════════════════════════════════════════════════════════
+   TERMINAL LOG PANE
+══════════════════════════════════════════════════════════════ */
+.terminal-section{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-xl);overflow:hidden;
+}
+.terminal-hd{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:14px 20px;border-bottom:1px solid var(--border);
+  background:linear-gradient(135deg,rgba(79,70,229,.06) 0%,transparent 60%);
+  position:relative;
+}
+.terminal-hd::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(79,70,229,.45) 25%,rgba(16,185,129,.3) 75%,transparent);
+}
+.terminal-hd-left{display:flex;align-items:center;gap:12px}
+.terminal-hd-icon{
+  width:34px;height:34px;border-radius:var(--r-md);
+  background:rgba(79,70,229,.1);border:1px solid rgba(79,70,229,.2);
+  display:flex;align-items:center;justify-content:center;color:var(--indigo-l);
+}
+.terminal-title{font-size:14px;font-weight:700;color:var(--txt);letter-spacing:-.025em}
+.terminal-sub{font-size:11px;color:var(--txt3);font-weight:500}
+.terminal-hd-right{display:flex;align-items:center;gap:10px}
+/* Wave bars */
+.wave-bars{display:flex;align-items:flex-end;gap:3px;height:18px}
+.wave-bar{width:3px;border-radius:var(--r-full);background:var(--indigo)}
+.wave-bar:nth-child(1){animation:wave-bounce 1s ease-in-out infinite 0s}
+.wave-bar:nth-child(2){animation:wave-bounce 1s ease-in-out infinite .18s}
+.wave-bar:nth-child(3){animation:wave-bounce 1s ease-in-out infinite .36s}
+.wave-bar:nth-child(4){animation:wave-bounce 1s ease-in-out infinite .54s}
+@keyframes wave-bounce{0%,100%{height:4px;opacity:.35}50%{height:16px;opacity:1}}
+.stack-badge{
+  font-family:var(--mono);font-size:10px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.06em;
+  color:var(--indigo-l);background:rgba(79,70,229,.08);
+  border:1px solid rgba(79,70,229,.2);padding:5px 12px;
+  border-radius:var(--r-full);display:flex;align-items:center;gap:6px;
+}
+.stack-badge::before{
+  content:'';width:6px;height:6px;border-radius:50%;
+  background:var(--indigo-l);animation:blink 1.5s ease-in-out infinite;flex-shrink:0;
+}
+/* Terminal body */
+.terminal-body{
+  height:220px;overflow-y:auto;padding:14px 20px;
+  background:#050912;
+  scrollbar-width:thin;scrollbar-color:rgba(79,70,229,.35) transparent;
+}
+.terminal-body::-webkit-scrollbar{width:4px}
+.terminal-body::-webkit-scrollbar-thumb{background:rgba(79,70,229,.35);border-radius:var(--r-full)}
+.term-line{
+  font-family:var(--mono);font-size:11.5px;line-height:1.8;
+  color:#64748b;display:flex;gap:10px;align-items:flex-start;
+  padding:1px 0;border-bottom:1px solid rgba(255,255,255,.02);
+  animation:term-appear .35s ease-out both;
+}
+@keyframes term-appear{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:translateY(0)}}
+.term-ts{color:#334155;flex-shrink:0;font-size:10.5px}
+.term-scope{flex-shrink:0;font-size:10px;font-weight:700;padding:1px 7px;border-radius:3px;margin-top:2px}
+.term-scope--sync{background:rgba(79,70,229,.15);color:#818cf8}
+.term-scope--courier{background:rgba(245,158,11,.12);color:#fbbf24}
+.term-scope--inv{background:rgba(16,185,129,.1);color:#34d399}
+.term-scope--risk{background:rgba(244,63,94,.1);color:#fb7185}
+.term-scope--list{background:rgba(56,189,248,.1);color:#7dd3fc}
+.term-scope--recon{background:rgba(168,85,247,.1);color:#c084fc}
+.term-msg{color:#475569;flex:1;line-height:1.7}
+.term-msg .hl{color:#94a3b8;font-weight:500}
+.term-msg .accent{color:var(--indigo-l)}
+.term-msg .success{color:var(--emerald)}
+.term-msg .warn{color:var(--amber)}
+.term-msg .danger{color:var(--rose)}
+.term-cursor{
+  display:inline-block;width:6px;height:13px;
+  background:var(--indigo-l);border-radius:1px;
+  animation:cursor-blink 1.1s step-end infinite;
+  vertical-align:middle;margin-left:4px;
+}
+@keyframes cursor-blink{0%,100%{opacity:1}50%{opacity:0}}
+/* Terminal footer */
+.terminal-ft{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:10px 20px;border-top:1px solid var(--border);
+  background:rgba(255,255,255,.008);
+}
+.term-count{font-size:11px;color:var(--txt3)}
+.term-count strong{color:var(--txt2);font-weight:600}
+.term-controls{display:flex;gap:6px}
+.term-btn{
+  display:flex;align-items:center;gap:6px;
+  padding:5px 12px;border-radius:var(--r-md);
+  font-size:11px;font-weight:600;
+  border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--txt2);
+  cursor:pointer;transition:all var(--trans);
+}
+.term-btn:hover{background:rgba(255,255,255,.07);color:var(--txt);border-color:var(--border2)}
+.term-btn--pri{background:rgba(79,70,229,.1);color:var(--indigo-l);border-color:rgba(79,70,229,.25)}
+.term-btn--pri:hover{background:rgba(79,70,229,.18);color:#fff;border-color:rgba(79,70,229,.45)}
+
+/* ══════════════════════════════════════════════════════════════
+   UTILITY
+══════════════════════════════════════════════════════════════ */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+/* Toast */
+.toast-wrap{position:fixed;bottom:24px;right:24px;display:flex;flex-direction:column;gap:8px;z-index:9999}
+.toast{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 16px;border-radius:var(--r-lg);
+  font-size:12px;font-weight:500;
+  border:1px solid;box-shadow:var(--shadow-lg);
+  animation:toast-in .35s cubic-bezier(.34,1.56,.64,1) both;
+  min-width:220px;max-width:320px;
+}
+@keyframes toast-in{from{opacity:0;transform:translateY(10px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+.toast.fade-out{animation:toast-out .25s ease-in both}
+@keyframes toast-out{to{opacity:0;transform:translateY(6px)}}
+.toast--success{background:rgba(16,185,129,.1);color:var(--emerald-l);border-color:var(--emerald-bd)}
+.toast--warn{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-bd)}
+.toast--info{background:rgba(79,70,229,.1);color:var(--indigo-l);border-color:rgba(79,70,229,.25)}
+
+/* ══════════════════════════════════════════════════════════════
+   ADMINISTRATIVE VIEWS (SETTINGS & API)
+   ══════════════════════════════════════════════════════════════ */
+.ops-view-wrapper, .settings-view-wrapper, .api-view-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+.settings-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.settings-card-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+}
+.settings-row.border-bottom {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 14px;
+}
+.settings-row-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  flex: 1;
+}
+.settings-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--txt);
+}
+.settings-desc {
+  font-size: 11px;
+  color: var(--txt2);
+  line-height: 1.4;
+}
+.settings-control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.settings-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--txt2);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+.settings-input, .settings-select {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: var(--r-md);
+  color: var(--txt);
+  font-family: var(--font);
+  font-size: 12.5px;
+  padding: 10px 14px;
+  width: 100%;
+  outline: none;
+  transition: all var(--trans);
+}
+.settings-input:focus, .settings-select:focus {
+  border-color: var(--indigo-l);
+  box-shadow: 0 0 0 2px var(--indigo-glow);
+}
+.settings-slider-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.settings-slider {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: var(--r-full);
+  background: var(--surface3);
+  outline: none;
+}
+.settings-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--indigo-l);
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(99,102,241,.5);
+  transition: transform var(--trans);
+}
+.settings-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.25);
+}
+.settings-slider-value {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--indigo-l);
+  min-width: 44px;
+  text-align: right;
+}
+.settings-btn-save {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 20px;
+  border-radius: var(--r-md);
+  font-size: 12.5px;
+  font-weight: 600;
+  background: var(--indigo);
+  color: #fff;
+  border: 1px solid var(--indigo-d);
+  cursor: pointer;
+  transition: all var(--trans);
+  box-shadow: 0 2px 10px rgba(79,70,229,.35);
+  margin-top: 10px;
+  align-self: flex-start;
+}
+.settings-btn-save:hover {
+  background: var(--indigo-l);
+  box-shadow: 0 4px 18px var(--indigo-glow);
+}
+.settings-btn-reset {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 20px;
+  border-radius: var(--r-md);
+  font-size: 12.5px;
+  font-weight: 600;
+  background: transparent;
+  color: var(--txt2);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all var(--trans);
+}
+.settings-btn-reset:hover {
+  background: rgba(255,255,255,.03);
+  color: var(--txt);
+  border-color: var(--border2);
+}
+
+/* API Elements */
+.api-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+}
+.api-table th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--txt3);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.api-table td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+.api-key-code {
+  font-family: var(--mono);
+  color: var(--txt);
+  background: var(--bg2);
+  padding: 4px 8px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border);
+  letter-spacing: .02em;
+}
+.api-btn-copy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--r-sm);
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--border);
+  color: var(--txt2);
+  transition: all var(--trans);
+  cursor: pointer;
+}
+.api-btn-copy:hover {
+  background: rgba(255,255,255,.08);
+  color: var(--txt);
+  border-color: var(--border2);
+}
+.api-btn-revoke {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  border-radius: var(--r-sm);
+  background: rgba(244,63,94,.08);
+  border: 1px solid var(--rose-bd);
+  color: var(--rose);
+  font-size: 11px;
+  font-weight: 500;
+  transition: all var(--trans);
+  cursor: pointer;
+}
+.api-btn-revoke:hover {
+  background: rgba(244,63,94,.16);
+  color: #ff6b8b;
+  border-color: var(--rose);
+}
+.api-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  border-radius: var(--r-full);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .02em;
+}
+.api-status-badge--active {
+  background: var(--emerald-bg);
+  color: var(--emerald-l);
+  border: 1px solid var(--emerald-bd);
+}
+.api-status-badge--revoked {
+  background: var(--rose-bg);
+  color: var(--rose);
+  border: 1px solid var(--rose-bd);
+}
+.event-checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+.event-checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+  background: var(--bg2);
+  cursor: pointer;
+  user-select: none;
+  font-size: 11.5px;
+  transition: all var(--trans);
+}
+.event-checkbox-item:hover {
+  border-color: var(--border2);
+  background: rgba(255,255,255,.02);
+}
+.event-checkbox-item input {
+  accent-color: var(--indigo-l);
+  cursor: pointer;
+}
+.api-usage-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 0;
+}
+.api-usage-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--surface3);
+  border-radius: var(--r-full);
+}
+.api-usage-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--indigo), var(--sky));
+  border-radius: var(--r-full);
+}
+
+/* Responsive */
+@media(max-width:1300px){.kpi-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:1100px){.split-view{grid-template-columns:1fr}}
+@media(max-width:800px){.kpi-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="shell" id="shell">
+
+<!-- ══════════════ SIDEBAR ══════════════ -->
+<aside class="sidebar" role="navigation" aria-label="Global navigation">
+
+  <!-- Brand -->
+  <div class="sb-brand">
+    <div class="sb-brand-mark" aria-hidden="true">
+      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 1L14.5 4.5V11.5L8 15L1.5 11.5V4.5L8 1Z" stroke="white" stroke-width="1.4" stroke-linejoin="round"/>
+        <circle cx="8" cy="8" r="2.2" fill="white"/>
+      </svg>
+    </div>
+    <span class="sb-brand-name">NexusOS</span>
+    <span class="sb-version">v2.0</span>
+  </div>
+
+  <!-- Nav -->
+  <nav class="sb-nav" aria-label="Module navigation">
+    <div class="sb-section-label">Operational Modules</div>
+    <ul role="list">
+      <li class="sb-nav-item active" data-tab="0" role="button" tabindex="0" aria-selected="true">
+        <span class="sb-nav-icon" aria-hidden="true">
+          <svg viewBox="0 0 18 18" fill="none" width="18" height="18">
+            <rect x="1" y="1" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.4"/>
+            <rect x="10" y="1" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.4"/>
+            <rect x="1" y="10" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.4"/>
+            <path d="M10 13.5H17M13.5 10V17" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="sb-nav-label">Omnichannel Order Engine</span>
+        <span class="sb-nav-count">09</span>
+      </li>
+      <li class="sb-nav-item" data-tab="1" role="button" tabindex="0">
+        <span class="sb-nav-icon" aria-hidden="true">
+          <svg viewBox="0 0 18 18" fill="none" width="18" height="18">
+            <rect x="1" y="7" width="10" height="8" rx="1" stroke="currentColor" stroke-width="1.4"/>
+            <path d="M11 8.5H14L16 11V15H11V8.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+            <circle cx="4" cy="15" r="1.5" stroke="currentColor" stroke-width="1.3"/>
+            <circle cx="13" cy="15" r="1.5" stroke="currentColor" stroke-width="1.3"/>
+          </svg>
+        </span>
+        <span class="sb-nav-label">Hyper-Local Logistics</span>
+        <span class="sb-nav-count">08</span>
+      </li>
+      <li class="sb-nav-item" data-tab="2" role="button" tabindex="0">
+        <span class="sb-nav-icon" aria-hidden="true">
+          <svg viewBox="0 0 18 18" fill="none" width="18" height="18">
+            <rect x="1" y="9" width="4" height="8" rx="1" stroke="currentColor" stroke-width="1.4"/>
+            <rect x="7" y="6" width="4" height="11" rx="1" stroke="currentColor" stroke-width="1.4"/>
+            <rect x="13" y="2" width="4" height="15" rx="1" stroke="currentColor" stroke-width="1.4"/>
+          </svg>
+        </span>
+        <span class="sb-nav-label">Predictive Inventory</span>
+        <span class="sb-nav-count">10</span>
+      </li>
+      <li class="sb-nav-item" data-tab="3" role="button" tabindex="0">
+        <span class="sb-nav-icon" aria-hidden="true">
+          <svg viewBox="0 0 18 18" fill="none" width="18" height="18">
+            <rect x="1" y="1" width="16" height="12" rx="1.5" stroke="currentColor" stroke-width="1.4"/>
+            <path d="M5 5H13M5 8H10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            <path d="M6 17H12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            <path d="M9 13V17" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="sb-nav-label">Listing Matrix & Risk</span>
+        <span class="sb-nav-count">10</span>
+      </li>
+      <li class="sb-nav-item" data-tab="4" role="button" tabindex="0">
+        <span class="sb-nav-icon" aria-hidden="true">
+          <svg viewBox="0 0 18 18" fill="none" width="18" height="18">
+            <circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.4"/>
+            <path d="M5 11L7.5 8.5L9.5 10.5L13 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="sb-nav-label">Scaling Analytics</span>
+        <span class="sb-nav-count">13</span>
+      </li>
+    </ul>
+
+    <div class="sb-section-label" style="margin-top:16px">System</div>
+    <ul role="list">
+      <li class="sb-nav-item" data-tab="settings" role="button" tabindex="0">
+        <span class="sb-nav-icon" aria-hidden="true">
+          <svg viewBox="0 0 18 18" fill="none" width="18" height="18">
+            <circle cx="9" cy="9" r="3" stroke="currentColor" stroke-width="1.4"/>
+            <path d="M9 1.5V3M9 15V16.5M1.5 9H3M15 9H16.5M3.7 3.7L4.76 4.76M13.24 13.24L14.3 14.3M3.7 14.3L4.76 13.24M13.24 4.76L14.3 3.7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="sb-nav-label">System Settings</span>
+      </li>
+      <li class="sb-nav-item" data-tab="api" role="button" tabindex="0">
+        <span class="sb-nav-icon" aria-hidden="true">
+          <svg viewBox="0 0 18 18" fill="none" width="18" height="18">
+            <path d="M6 5L2 9L6 13M12 5L16 9L12 13M10 3L8 15" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="sb-nav-label">API &amp; Webhooks</span>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Bottom profile -->
+  <div class="sb-bottom">
+    <div class="sb-profile">
+      <div class="sb-avatar" aria-label="D2C Admin user">D2C</div>
+      <div class="sb-profile-info">
+        <div class="sb-profile-name">Admin Workspace</div>
+        <div class="sb-profile-sub">Active Store: India Market</div>
+      </div>
+    </div>
+    <div class="sb-sys-badge" aria-live="polite">
+      <div class="sb-sys-dot" aria-hidden="true"></div>
+      <span class="sb-sys-text">All Systems Online</span>
+      <span class="sb-sys-count" id="active-engines">50/50</span>
+    </div>
+  </div>
+</aside>
+
+<!-- ══════════════ MAIN ══════════════ -->
+<div class="main" id="main">
+
+  <!-- TOP BAR -->
+  <header class="topbar" role="banner" aria-label="Operational command header">
+    <div class="tb-left">
+      <h1 class="tb-page-title" id="page-title">Omnichannel Order Engine</h1>
+      <div class="tb-status" role="status" aria-live="polite">
+        <div class="pulse-dot" aria-hidden="true"></div>
+        Systems Operational
+      </div>
+    </div>
+    <div class="tb-right">
+      <div class="tb-stat" aria-label="Active automation nodes">
+        <span class="tb-stat-label">Active Nodes</span>
+        <span class="tb-stat-val" id="tb-nodes">50</span>
+      </div>
+      <div class="tb-stat" aria-label="Sync success rate">
+        <span class="tb-stat-label">Sync Rate</span>
+        <span class="tb-stat-val" id="tb-sync">99.97%</span>
+      </div>
+      <div class="tb-stat" aria-label="Global actions per minute">
+        <span class="tb-stat-label">Actions / min</span>
+        <span class="tb-stat-val" id="tb-apm">4,850</span>
+      </div>
+      <div class="tb-clock" id="tb-clock" aria-label="Current time" role="timer">--:--:--</div>
+    </div>
+  </header>
+
+  <!-- WORKSPACE -->
+  <main class="workspace" id="workspace" role="main">
+
+    <!-- TAB STRIP -->
+    <nav class="tab-strip" role="tablist" aria-label="Module tabs" id="tab-strip">
+      <button class="tab-pill active" role="tab" aria-selected="true" data-tab="0" id="tab-btn-0">
+        <svg class="tab-pill-icon" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="8" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="1" y="8" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M8 10.5H13M10.5 8V13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        Order Engine
+      </button>
+      <button class="tab-pill" role="tab" aria-selected="false" data-tab="1" id="tab-btn-1">
+        <svg class="tab-pill-icon" viewBox="0 0 14 14" fill="none"><rect x="1" y="5" width="8" height="7" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M9 7H11.5L13 9.5V12H9V7Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="3.5" cy="12" r="1.2" stroke="currentColor" stroke-width="1.2"/><circle cx="10.5" cy="12" r="1.2" stroke="currentColor" stroke-width="1.2"/></svg>
+        Logistics
+      </button>
+      <button class="tab-pill" role="tab" aria-selected="false" data-tab="2" id="tab-btn-2">
+        <svg class="tab-pill-icon" viewBox="0 0 14 14" fill="none"><rect x="1" y="7" width="3" height="6" rx=".8" stroke="currentColor" stroke-width="1.3"/><rect x="5.5" y="4.5" width="3" height="8.5" rx=".8" stroke="currentColor" stroke-width="1.3"/><rect x="10" y="1.5" width="3" height="11.5" rx=".8" stroke="currentColor" stroke-width="1.3"/></svg>
+        Inventory
+      </button>
+      <button class="tab-pill" role="tab" aria-selected="false" data-tab="3" id="tab-btn-3">
+        <svg class="tab-pill-icon" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="9" rx="1.2" stroke="currentColor" stroke-width="1.3"/><path d="M4 4H10M4 6.5H7.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M5 13H9M7 10V13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        Listing &amp; Risk
+      </button>
+      <button class="tab-pill" role="tab" aria-selected="false" data-tab="4" id="tab-btn-4">
+        <svg class="tab-pill-icon" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.3"/><path d="M3.5 8.5L5.5 6.5L7.5 8L10.5 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Analytics &amp; Recon
+      </button>
+    </nav>
+
+    <!-- OPERATIONS VIEW WRAPPER -->
+    <div class="ops-view-wrapper" id="ops-view-wrapper">
+
+      <!-- KPI TELEMETRY GRID -->
+      <section aria-label="Core telemetry metrics" id="kpi-section">
+        <div class="kpi-grid">
+
+        <!-- KPI 1: Active Automation Nodes -->
+        <article class="kpi-card kpi-card--indigo">
+          <div class="kpi-hd">
+            <div class="kpi-icon kpi-icon--indigo" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M9 1L16 5V13L9 17L2 13V5L9 1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <circle cx="9" cy="9" r="2.5" stroke="currentColor" stroke-width="1.5"/>
+              </svg>
+            </div>
+            <span class="kpi-label">Active Automation Nodes</span>
+          </div>
+          <div>
+            <div class="kpi-val" id="kpi-nodes">50<span> active</span></div>
+            <div class="kpi-progress" style="margin-top:8px"><div class="kpi-progress-fill" style="width:100%"></div></div>
+          </div>
+          <div class="kpi-ft">
+            <span class="kpi-sub">All 50 engines running</span>
+            <span class="kpi-chip kpi-chip--indigo">100%</span>
+          </div>
+        </article>
+
+        <!-- KPI 2: Hours Saved -->
+        <article class="kpi-card kpi-card--emerald">
+          <div class="kpi-hd">
+            <div class="kpi-icon kpi-icon--emerald" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M9 5V9.5L12 11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span class="kpi-label">Operational Hours Saved</span>
+          </div>
+          <div class="kpi-val kpi-val--emerald" id="kpi-hours">238<span> hrs/wk</span></div>
+          <div class="kpi-ft">
+            <span class="kpi-sub kpi-sub--up">↑ 18% vs last week</span>
+            <span class="kpi-chip kpi-chip--emerald">↑ 18%</span>
+          </div>
+        </article>
+
+        <!-- KPI 3: Sync Success -->
+        <article class="kpi-card kpi-card--amber">
+          <div class="kpi-hd">
+            <div class="kpi-icon kpi-icon--amber" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M3 9C3 5.686 5.686 3 9 3C11.21 3 13.147 4.16 14.245 5.9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M15 9C15 12.314 12.314 15 9 15C6.79 15 4.853 13.84 3.755 12.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M14.245 5.9L15 3L16.5 6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M3.755 12.1L3 15L1.5 11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span class="kpi-label">Real-Time Sync Success %</span>
+          </div>
+          <div class="kpi-val" id="kpi-sync">99.97<span>%</span></div>
+          <div class="kpi-ft">
+            <span class="kpi-sub">0 critical failures</span>
+            <span class="kpi-chip kpi-chip--amber">Excellent</span>
+          </div>
+        </article>
+
+        <!-- KPI 4: High-Risk Intercepted -->
+        <article class="kpi-card kpi-card--rose">
+          <div class="kpi-hd">
+            <div class="kpi-icon kpi-icon--rose" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M9 1.5L16.5 15H1.5L9 1.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M9 7V10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <circle cx="9" cy="12.5" r=".8" fill="currentColor"/>
+              </svg>
+            </div>
+            <span class="kpi-label">High-Risk Orders Intercepted</span>
+          </div>
+          <div class="kpi-val kpi-val--rose" id="kpi-risk">1,284<span> orders</span></div>
+          <div class="kpi-ft">
+            <span class="kpi-sub">via AI-RTO + COD Verify</span>
+            <span class="kpi-chip kpi-chip--rose">Saved</span>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- SPLIT VIEW -->
+    <section class="split-view" aria-label="Operations workspace">
+
+      <!-- LEFT: Marketplace Integrations Center -->
+      <article class="market-panel" aria-labelledby="market-panel-title">
+        <div class="panel-hd">
+          <div class="panel-hd-left">
+            <div class="panel-dot panel-dot--emerald" aria-hidden="true"></div>
+            <h2 class="panel-title" id="market-panel-title">Marketplace Integrations</h2>
+          </div>
+          <span class="panel-badge panel-badge--indigo">5 Active</span>
+        </div>
+        <div class="panel-body">
+          <ul class="ch-list" role="list" aria-label="Active marketplace channels">
+
+            <li class="ch-item">
+              <div class="ch-left">
+                <div class="ch-logo ch-logo--amz" aria-hidden="true">AMZ</div>
+                <div class="ch-info">
+                  <span class="ch-name">Amazon India</span>
+                  <span class="ch-detail">SP-API · FBA + FBM · Polling</span>
+                </div>
+              </div>
+              <div class="ch-right">
+                <span class="ch-status ch-status--poll"><span class="blink-dot" aria-hidden="true"></span>Polling</span>
+                <span class="ch-interval">10m</span>
+              </div>
+            </li>
+
+            <li class="ch-item">
+              <div class="ch-left">
+                <div class="ch-logo ch-logo--fk" aria-hidden="true">FK</div>
+                <div class="ch-info">
+                  <span class="ch-name">Flipkart Direct</span>
+                  <span class="ch-detail">RTD Mapping · WH Integration</span>
+                </div>
+              </div>
+              <div class="ch-right">
+                <span class="ch-status ch-status--rtd">RTD Active</span>
+              </div>
+            </li>
+
+            <li class="ch-item">
+              <div class="ch-left">
+                <div class="ch-logo ch-logo--shop" aria-hidden="true">SHO</div>
+                <div class="ch-info">
+                  <span class="ch-name">Shopify Store</span>
+                  <span class="ch-detail">REST Feed · Webhook Ingestion</span>
+                </div>
+              </div>
+              <div class="ch-right">
+                <span class="ch-status ch-status--live"><span class="blink-dot" aria-hidden="true"></span>Live Sync</span>
+              </div>
+            </li>
+
+            <li class="ch-item">
+              <div class="ch-left">
+                <div class="ch-logo ch-logo--myn" aria-hidden="true">MYN</div>
+                <div class="ch-info">
+                  <span class="ch-name">Myntra</span>
+                  <span class="ch-detail">Offer File · Scheduled Upload</span>
+                </div>
+              </div>
+              <div class="ch-right">
+                <span class="ch-status ch-status--poll"><span class="blink-dot" aria-hidden="true"></span>Scheduled</span>
+                <span class="ch-interval">6h</span>
+              </div>
+            </li>
+
+            <li class="ch-item">
+              <div class="ch-left">
+                <div class="ch-logo ch-logo--meso" aria-hidden="true">MES</div>
+                <div class="ch-info">
+                  <span class="ch-name">Meesho</span>
+                  <span class="ch-detail">Catalog Sync · Price Rules</span>
+                </div>
+              </div>
+              <div class="ch-right">
+                <span class="ch-status ch-status--live"><span class="blink-dot" aria-hidden="true"></span>Live Sync</span>
+              </div>
+            </li>
+
+          </ul>
+
+          <div class="ch-stats" role="group" aria-label="Channel summary statistics">
+            <div class="ch-stat">
+              <span class="ch-stat-val" id="ch-channels">5</span>
+              <span class="ch-stat-lbl">Channels</span>
+            </div>
+            <div class="ch-stat-div" aria-hidden="true"></div>
+            <div class="ch-stat">
+              <span class="ch-stat-val" id="ch-events">2.4k</span>
+              <span class="ch-stat-lbl">Events/hr</span>
+            </div>
+            <div class="ch-stat-div" aria-hidden="true"></div>
+            <div class="ch-stat">
+              <span class="ch-stat-val">99.9%</span>
+              <span class="ch-stat-lbl">Uptime</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- RIGHT: Workflow Matrix Studio -->
+      <article class="workflow-panel" aria-labelledby="workflow-panel-title">
+        <div class="panel-hd">
+          <div class="panel-hd-left">
+            <div class="panel-dot panel-dot--indigo" aria-hidden="true"></div>
+            <h2 class="panel-title" id="workflow-panel-title">Workflow Matrix Studio</h2>
+          </div>
+          <span class="panel-badge panel-badge--emerald" id="wf-engine-badge">All 9 Engines Online</span>
+        </div>
+        <div class="wf-body" id="wf-body">
+          <!-- Tab contents rendered by JS -->
+        </div>
+      </article>
+
+    </section>
+
+    <!-- TERMINAL LOG PANE -->
+    <section class="terminal-section" aria-labelledby="terminal-title">
+      <div class="terminal-hd">
+        <div class="terminal-hd-left">
+          <div class="terminal-hd-icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <rect x="1" y="2" width="14" height="2" rx="1" fill="currentColor" opacity=".35"/>
+              <rect x="1" y="6.5" width="9" height="2" rx="1" fill="currentColor" opacity=".65"/>
+              <rect x="1" y="11" width="12" height="2" rx="1" fill="currentColor"/>
+            </svg>
+          </div>
+          <div>
+            <h2 class="terminal-title" id="terminal-title">Live Operation &amp; Trace Streams</h2>
+            <p class="terminal-sub">Real-time webhook ingestion, AWB routing, and algorithmic pipeline audit log</p>
+          </div>
+        </div>
+        <div class="terminal-hd-right">
+          <div class="wave-bars" aria-hidden="true">
+            <div class="wave-bar"></div><div class="wave-bar"></div>
+            <div class="wave-bar"></div><div class="wave-bar"></div>
+          </div>
+          <span class="stack-badge">Streaming Log Stack</span>
+        </div>
+      </div>
+      <div class="terminal-body" id="terminal-body" role="log" aria-live="polite" aria-label="System log stream" tabindex="0">
+        <!-- lines injected by JS -->
+      </div>
+      <div class="terminal-ft">
+        <span class="term-count" id="term-count">Showing <strong>0</strong> of <strong id="term-total">4,850</strong> trace events</span>
+        <div class="term-controls">
+          <button class="term-btn" id="pause-btn" aria-label="Pause log stream">
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><rect x="1.5" y="1.5" width="2.5" height="8" rx=".6" fill="currentColor"/><rect x="7" y="1.5" width="2.5" height="8" rx=".6" fill="currentColor"/></svg>
+            Pause Stream
+          </button>
+          <button class="term-btn term-btn--pri" id="export-btn" aria-label="Export log data">
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M5.5 1V7.5M5.5 7.5L3 5.5M5.5 7.5L8 5.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 9.5H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+            Export Logs
+          </button>
+        </div>
+      </div>
+    </section>
+
+    </div><!-- /ops-view-wrapper -->
+
+    <!-- SETTINGS VIEW WRAPPER -->
+    <div class="settings-view-wrapper" id="settings-view-wrapper" style="display: none;">
+      <div class="settings-grid">
+        
+        <!-- CARD 1: General Orchestration -->
+        <article class="settings-card">
+          <div class="panel-hd">
+            <div class="panel-hd-left">
+              <div class="panel-dot panel-dot--indigo" aria-hidden="true"></div>
+              <h2 class="panel-title">General Orchestration</h2>
+            </div>
+            <span class="panel-badge panel-badge--indigo">Active</span>
+          </div>
+          <div class="settings-card-body">
+            
+            <div class="settings-row border-bottom">
+              <div class="settings-row-info">
+                <span class="settings-title">Enterprise Sandbox Mode</span>
+                <p class="settings-desc">Redirect all outgoing marketplace API dispatches to isolated sandbox endpoints.</p>
+              </div>
+              <label class="toggle" aria-label="Toggle Sandbox Mode">
+                <input type="checkbox" id="settings-sandbox" />
+                <span class="toggle-track">
+                  <span class="toggle-thumb"></span>
+                </span>
+              </label>
+            </div>
+
+            <div class="settings-row border-bottom">
+              <div class="settings-row-info">
+                <span class="settings-title">Global Webhook Dispatcher</span>
+                <p class="settings-desc">Broadcast live event packets to all configured system endpoints instantly.</p>
+              </div>
+              <label class="toggle" aria-label="Toggle Webhook Dispatcher">
+                <input type="checkbox" id="settings-webhook" checked />
+                <span class="toggle-track">
+                  <span class="toggle-thumb"></span>
+                </span>
+              </label>
+            </div>
+
+            <div class="settings-row border-bottom">
+              <div class="settings-row-info">
+                <span class="settings-title">Auto-Retry Failed Sync Jobs</span>
+                <p class="settings-desc">Retry failed inventory syncs up to 3 times before raising a critical system alert.</p>
+              </div>
+              <label class="toggle" aria-label="Toggle Auto-Retry">
+                <input type="checkbox" id="settings-retry" checked />
+                <span class="toggle-track">
+                  <span class="toggle-thumb"></span>
+                </span>
+              </label>
+            </div>
+
+            <div class="settings-row">
+              <div class="settings-row-info">
+                <span class="settings-title">Verbose Logging Stream</span>
+                <p class="settings-desc">Output detailed execution logs to the live trace stream console.</p>
+              </div>
+              <label class="toggle" aria-label="Toggle Verbose Logging">
+                <input type="checkbox" id="settings-verbose" />
+                <span class="toggle-track">
+                  <span class="toggle-thumb"></span>
+                </span>
+              </label>
+            </div>
+
+          </div>
+        </article>
+
+        <!-- CARD 2: Execution Rules & AI Thresholds -->
+        <article class="settings-card">
+          <div class="panel-hd">
+            <div class="panel-hd-left">
+              <div class="panel-dot panel-dot--emerald" aria-hidden="true"></div>
+              <h2 class="panel-title">Execution Rules &amp; Thresholds</h2>
+            </div>
+          </div>
+          <div class="settings-card-body">
+            
+            <div class="settings-control-group">
+              <label class="settings-label" for="settings-rto-threshold">AI-RTO Intercept Threshold</label>
+              <div class="settings-slider-container">
+                <input type="range" id="settings-rto-threshold" class="settings-slider" min="50" max="95" value="75" />
+                <span class="settings-slider-value" id="settings-rto-val">75%</span>
+              </div>
+              <p class="settings-desc" style="margin-top:2px">Orders with an AI risk probability above this limit are put on COD-hold.</p>
+            </div>
+
+            <div class="settings-control-group" style="margin-top:8px">
+              <label class="settings-label" for="settings-polling-interval">Order Polling Interval</label>
+              <div class="settings-slider-container">
+                <input type="range" id="settings-polling-interval" class="settings-slider" min="1" max="30" value="10" />
+                <span class="settings-slider-value" id="settings-polling-val">10m</span>
+              </div>
+              <p class="settings-desc" style="margin-top:2px">Controls how frequently NexusOS queries marketplace APIs for new sales.</p>
+            </div>
+
+            <div class="settings-control-group" style="margin-top:8px">
+              <label class="settings-label" for="settings-courier-strategy">Courier Routing Strategy</label>
+              <select id="settings-courier-strategy" class="settings-select">
+                <option value="cheapest">Cheapest Available SLA Partner</option>
+                <option value="fastest">Fastest Delivery Window SLA</option>
+                <option value="weighted" selected>Weighted Dynamic Distribution (50/50)</option>
+                <option value="rating">Carrier Rating Index Priority</option>
+              </select>
+              <p class="settings-desc">Priority metrics for selection of logistics partners.</p>
+            </div>
+
+          </div>
+        </article>
+
+        <!-- CARD 3: Logistics Weights & Divisors -->
+        <article class="settings-card">
+          <div class="panel-hd">
+            <div class="panel-hd-left">
+              <div class="panel-dot panel-dot--amber" aria-hidden="true"></div>
+              <h2 class="panel-title">Packaging Parameters</h2>
+            </div>
+          </div>
+          <div class="settings-card-body">
+            
+            <div class="settings-control-group">
+              <label class="settings-label" for="settings-tare-weight">Default Packaging Tare Weight (g)</label>
+              <input type="number" id="settings-tare-weight" class="settings-input" value="150" min="0" max="5000" />
+              <p class="settings-desc">Dead weight of box &amp; bubble wrap added to physical product weight.</p>
+            </div>
+
+            <div class="settings-control-group" style="margin-top:8px">
+              <label class="settings-label" for="settings-volumetric-divisor">Volumetric Divisor Constant</label>
+              <input type="number" id="settings-volumetric-divisor" class="settings-input" value="5000" min="1000" max="10000" />
+              <p class="settings-desc">Industry constant used to compute volumetric weight: (L × W × H) / divisor.</p>
+            </div>
+
+          </div>
+        </article>
+
+      </div>
+
+      <div style="display: flex; gap: 12px; margin-top: 8px;">
+        <button class="settings-btn-save" id="settings-save-btn">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 1H9L11 3V11H1V1Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="6" cy="8.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="3.5" y="1" width="4" height="3" rx=".5" fill="var(--bg)" stroke="currentColor" stroke-width="1.2"/></svg>
+          Save Configuration
+        </button>
+        <button class="settings-btn-reset" id="settings-reset-btn">Reset Defaults</button>
+      </div>
+    </div>
+
+    <!-- API VIEW WRAPPER -->
+    <div class="api-view-wrapper" id="api-view-wrapper" style="display: none;">
+      
+      <div class="settings-grid">
+        
+        <!-- CARD 1: API Keys List -->
+        <article class="settings-card" style="grid-column: span 2;">
+          <div class="panel-hd">
+            <div class="panel-hd-left">
+              <div class="panel-dot panel-dot--indigo" aria-hidden="true"></div>
+              <h2 class="panel-title">Active API Tokens</h2>
+            </div>
+            <button class="panel-badge panel-badge--indigo" style="cursor:pointer" id="btn-generate-api-key">+ Generate Secret Key</button>
+          </div>
+          <div class="settings-card-body" style="padding: 0 12px 12px;">
+            <table class="api-table" role="table" aria-label="API keys table">
+              <thead>
+                <tr>
+                  <th scope="col">Token Description</th>
+                  <th scope="col">API Key Pattern</th>
+                  <th scope="col">Date Created</th>
+                  <th scope="col">Status</th>
+                  <th scope="col" style="text-align: right;">Action</th>
+                </tr>
+              </thead>
+              <tbody id="api-keys-tbody">
+                <tr>
+                  <td style="font-weight:600; color:var(--txt);">NexusOS Admin Read-Write Token</td>
+                  <td><span class="api-key-code">nx_live_83fa••••••••d90</span></td>
+                  <td>10 Jun 2026</td>
+                  <td><span class="api-status-badge api-status-badge--active">Active</span></td>
+                  <td style="text-align: right; display:flex; justify-content: flex-end; gap:8px; padding-top: 16px;">
+                    <button class="api-btn-copy" title="Copy Key" data-copy="nx_live_83fa9b72c918ee4d90">
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1.5" y="3.5" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M3.5 1.5H8.5C9.6 1.5 10.5 2.4 10.5 3.5V8.5" stroke="currentColor" stroke-width="1.2"/></svg>
+                    </button>
+                    <button class="api-btn-revoke">Revoke</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="font-weight:600; color:var(--txt);">Logistics Dispatch Carrier Link</td>
+                  <td><span class="api-key-code">nx_live_12b8••••••••f3e</span></td>
+                  <td>14 Jun 2026</td>
+                  <td><span class="api-status-badge api-status-badge--active">Active</span></td>
+                  <td style="text-align: right; display:flex; justify-content: flex-end; gap:8px; padding-top: 16px;">
+                    <button class="api-btn-copy" title="Copy Key" data-copy="nx_live_12b84a91c1092ef3e">
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1.5" y="3.5" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M3.5 1.5H8.5C9.6 1.5 10.5 2.4 10.5 3.5V8.5" stroke="currentColor" stroke-width="1.2"/></svg>
+                    </button>
+                    <button class="api-btn-revoke">Revoke</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <!-- CARD 2: API Usage Quotas -->
+        <article class="settings-card">
+          <div class="panel-hd">
+            <div class="panel-hd-left">
+              <div class="panel-dot panel-dot--emerald" aria-hidden="true"></div>
+              <h2 class="panel-title">API Token Consumption</h2>
+            </div>
+            <span class="panel-badge panel-badge--emerald">84% Limit</span>
+          </div>
+          <div class="settings-card-body">
+            
+            <div class="api-usage-container">
+              <div style="display:flex; justify-content:space-between; font-size:12px;">
+                <span style="color:var(--txt2)">Active Billing Period Usage</span>
+                <span style="font-family:var(--mono); color:var(--txt)">84,320 / 100,000 reqs</span>
+              </div>
+              <div class="api-usage-bar">
+                <div class="api-usage-fill" style="width: 84.32%;"></div>
+              </div>
+              <p class="settings-desc" style="margin-top: 4px;">Tier resets in 13 days. Upgrade to Enterprise Scale for unlimited requests.</p>
+            </div>
+
+          </div>
+        </article>
+
+        <!-- CARD 3: Webhook Endpoint Registrations -->
+        <article class="settings-card" style="grid-column: span 2;">
+          <div class="panel-hd">
+            <div class="panel-hd-left">
+              <div class="panel-dot panel-dot--amber" aria-hidden="true"></div>
+              <h2 class="panel-title">Outgoing Webhook Subscriptions</h2>
+            </div>
+          </div>
+          <div class="settings-card-body">
+            
+            <!-- ADD ENDPOINT FORM -->
+            <div style="display: flex; flex-direction: column; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 16px;">
+              <div class="settings-control-group">
+                <label class="settings-label" for="webhook-url">Endpoint Destination URL</label>
+                <div style="display:flex; gap: 8px;">
+                  <input type="url" id="webhook-url" class="settings-input" placeholder="https://api.yourbrand.com/nexusos-webhook-receiver" style="flex:1;" />
+                  <button class="settings-btn-save" id="btn-add-webhook" style="margin-top: 0; padding: 10px 16px;">Add Endpoint</button>
+                </div>
+              </div>
+              
+              <div class="settings-control-group">
+                <label class="settings-label">Trigger Event Subscriptions</label>
+                <div class="event-checkbox-grid">
+                  <label class="event-checkbox-item">
+                    <input type="checkbox" id="ev-order-created" checked />
+                    <span>order.created</span>
+                  </label>
+                  <label class="event-checkbox-item">
+                    <input type="checkbox" id="ev-order-rtd" checked />
+                    <span>order.rtd_marked</span>
+                  </label>
+                  <label class="event-checkbox-item">
+                    <input type="checkbox" id="ev-inventory-low" />
+                    <span>inventory.low</span>
+                  </label>
+                  <label class="event-checkbox-item">
+                    <input type="checkbox" id="ev-shipment-status" checked />
+                    <span>shipment.status_change</span>
+                  </label>
+                  <label class="event-checkbox-item">
+                    <input type="checkbox" id="ev-recon-mismatch" />
+                    <span>recon.mismatch</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- ACTIVE LIST -->
+            <div class="settings-control-group">
+              <label class="settings-label">Registered Receivers</label>
+              
+              <div class="settings-row" style="background:var(--bg2); padding: 12px; border-radius: var(--r-lg); border: 1px solid var(--border)">
+                <div class="settings-row-info">
+                  <span class="settings-title" style="font-family: var(--mono); font-size:12px;">https://api.yourdomain.co/nexus-receiver</span>
+                  <p class="settings-desc">Subscribed to: <span style="color:var(--txt)">order.created, order.rtd_marked, shipment.status_change</span></p>
+                </div>
+                <div style="display:flex; align-items:center; gap: 12px;">
+                  <span class="api-status-badge api-status-badge--active">100% Uptime</span>
+                  <label class="toggle" aria-label="Toggle Receiver">
+                    <input type="checkbox" checked id="toggle-webhook-active" />
+                    <span class="toggle-track">
+                      <span class="toggle-thumb"></span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </article>
+
+      </div>
+      
+    </div>
+
+  </main>
+</div>
+</div>
+
+<!-- Toast container -->
+<div class="toast-wrap" id="toast-wrap" aria-live="assertive" aria-atomic="true"></div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   NEXUSOS CORE — DATA & LOGIC
+══════════════════════════════════════════════════════════════ */
+
+'use strict';
+
+/* ─── AUTOMATION DATA ──────────────────────────────────────── */
+const TABS_DATA = [
+  {
+    id: 0,
+    label: 'Omnichannel Order Engine',
+    engineCount: 9,
+    automations: [
+      { id:'SYS-ORD-01', title:'Auto-Fetch Orders (10–15 min Intervals)', desc:'Saves manual check time and ensures rapid cross-channel processing. Scheduled polling across Amazon, Flipkart, Shopify, Myntra, and Meesho.', on:true },
+      { id:'SYS-ORD-02', title:'Auto-Detect RTD Status (Flipkart / Amazon)', desc:'Accelerates dispatch timelines and streamlines warehouse handovers by automatically flagging RTD-eligible orders for immediate processing.', on:true },
+      { id:'SYS-ORD-03', title:'Auto-Update Order Status on Marketplaces', desc:'Builds consumer confidence and reduces confusion-based return profiles by instantly synchronizing order status across all active marketplace APIs.', on:true },
+      { id:'SYS-ORD-04', title:'Smart Order Routing to Correct Warehouse', desc:'Ensures fastest, cost-efficient distribution across nodes based on geography. Routes each order to the optimal physical warehouse automatically.', on:true },
+      { id:'SYS-ORD-05', title:'Bulk Status Update for Orders', desc:'Batch updates handling rapid sales spikes and high-intensity marketing campaigns. Processes thousands of status changes in a single execution cycle.', on:true },
+      { id:'SYS-ORD-06', title:'Auto-Assign Orders to Courier (Region / Weight)', desc:'Intelligently maps shipments to optimal courier partner rules based on target zone, volumetric weight, and cost bracket constraints.', on:true },
+      { id:'SYS-ORD-07', title:'Automatic AWB Assignment from Couriers', desc:'Eliminates manual input discrepancies by triggering instantaneous label generation directly from courier partner APIs post-order confirmation.', on:true },
+      { id:'SYS-ORD-08', title:'Auto-Generate Manifest Post RTD Marking', desc:'Ensures on-time handover compliance with clean documentation runs. Generates courier-ready manifests automatically once RTD is confirmed.', on:true },
+      { id:'SYS-ORD-09', title:'Auto-Trigger Customer Alerts (Email / WhatsApp / SMS)', desc:'Minimizes customer support tickets while elevating tracking clarity. Sends real-time order event notifications across all communication channels.', on:true },
+    ]
+  },
+  {
+    id: 1,
+    label: 'Hyper-Local & Multi-Warehouse Logistics',
+    engineCount: 8,
+    automations: [
+      { id:'SYS-LOG-10', title:'Auto-Print Shipping Labels with Rules', desc:'Eliminates localized dispatch bottlenecks and warehouse layout idle periods. Label rules auto-applied per warehouse zone and courier contract.', on:true },
+      { id:'SYS-LOG-11', title:'Auto-Schedule Courier Pickups', desc:'Guarantees reliable everyday carrier pickups protecting on-time shipping metrics. Pickup requests auto-filed based on shipment volume thresholds.', on:true },
+      { id:'SYS-LOG-12', title:'Fixed Cardboard Weight Auto-Applied', desc:'Prevents undercharging or overcharging discrepancies for clean margin forecasting. Dead weight of packaging automatically added to billable weight.', on:true },
+      { id:'SYS-LOG-13', title:'Region-Based Pickup Slot Rules', desc:'Granular dispatch scheduling tailored to metro vs non-metro warehouse workflows. Pickup windows dynamically assigned per PIN zone and courier SLA.', on:true },
+      { id:'SYS-LOG-14', title:'Multiple Shipping Accounts with Warehouse Rules', desc:'Enables multi-courier flexibility and regional cost containment. Each warehouse can operate under a separate courier account with isolated billing.', on:false },
+      { id:'SYS-LOG-15', title:'Workflow Rules Per Warehouse', desc:'Enforces localized SLAs, custom operational cuts, and timings for unique physical hubs. Per-warehouse rule engines with independent execution cycles.', on:true },
+      { id:'SYS-LOG-16', title:'Separate Courier Integration Per Pickup Address', desc:'Prevents crossing routing parameters across multi-location inventory maps. Each pickup address maps cleanly to its own courier API integration.', on:true },
+      { id:'SYS-LOG-17', title:'Warehouse Mapping to Courier or Order Channel', desc:'Optimizes multi-channel operations, stabilizing fulfillment handovers. Warehouse-to-channel matrix ensures correct courier is triggered per marketplace.', on:true },
+    ]
+  },
+  {
+    id: 2,
+    label: 'Predictive Inventory & Procurement',
+    engineCount: 10,
+    automations: [
+      { id:'SYS-INV-18', title:'Auto-Sync Inventory (Amazon / Flipkart / Shopify)', desc:'Prevents catastrophic overselling loops and marketplace penalizations by maintaining live, bidirectional inventory state across all connected channels.', on:true },
+      { id:'SYS-INV-19', title:'Real-Time Inventory Update on Stock In/Out', desc:'Stabilizes catalog accuracy ensuring reliable promise-to-delivery windows. Every GRN or dispatch event instantly propagates across the inventory matrix.', on:true },
+      { id:'SYS-INV-20', title:'Auto-Detect Stock Mismatch During Delivery', desc:'Flags inbound/outbound discrepancies early during the reconciliation stage. Computer-verified counts cross-checked against system records per delivery event.', on:true },
+      { id:'SYS-INV-21', title:'Scheduled Stock-Take Reminders for Warehouses', desc:'Automates standard physical audits to combat shrinkage and pilferage. Reminder cycles configured per warehouse with acknowledgement-based escalation.', on:true },
+      { id:'SYS-INV-22', title:'Auto-Generate Purchase Orders (Low Inventory Trigger)', desc:'Automates supply-chain procurement pipelines for fast-moving products. POs auto-drafted when any SKU breaches its configured reorder threshold.', on:true },
+      { id:'SYS-INV-23', title:'Stock Reservation Logic for Pending Orders', desc:'Safeguards inventory allocations for confirmed conversions to prevent conflicts. Reserved stock excluded from available listings until order completes or cancels.', on:true },
+      { id:'SYS-INV-24', title:'Delivery History Auto-Linked Per Product', desc:'Delivers immediate analytics into vendor performance and supplier cycle constraints. Full delivery timeline visible at SKU level across all PO cycles.', on:false },
+      { id:'SYS-INV-25', title:'Auto-Dispatch Items on PO Confirmation', desc:'Shortens vendor manufacturing timelines straight to warehouse shelving availability. Dispatch triggered automatically upon supplier PO acknowledgement.', on:true },
+      { id:'SYS-INV-26', title:'Duplicate PO Templates for Fast Reordering', desc:'Eliminates repetitive data input while streamlining purchasing workflows. Previous PO structures cloned in one click with new quantity inputs.', on:true },
+      { id:'SYS-INV-27', title:'Smart Inventory Pooling Across Warehouses', desc:'Maximized stock cross-utilization to compress dead-stock accumulation. Pool engine dynamically redistributes units based on channel demand velocity.', on:true },
+    ]
+  },
+  {
+    id: 3,
+    label: 'Listing Matrix & Risk Mitigation',
+    engineCount: 10,
+    automations: [
+      { id:'SYS-LST-28', title:'Auto-Pull Listings from Marketplaces', desc:'Drastically lowers onboarding overhead for new channel scaling. All product listings fetched and indexed automatically from every connected marketplace.', on:true },
+      { id:'SYS-LST-29', title:'Map Listings by SKU / Barcode Automatically', desc:'Ensures high fidelity catalogs mitigating mismatched processing risks. SKU-barcode cross-mapping engine validates every listing against master catalog.', on:true },
+      { id:'SYS-LST-30', title:'Live Price Sync to Marketplaces', desc:'Safeguards margin accuracy across multi-channel environments instantly. Price rule changes propagate to all active listings within a single sync cycle.', on:true },
+      { id:'SYS-LST-31', title:'Auto-Flag Deactivated Listings', desc:'Keeps store presence synchronized while flagging critical production gaps. Deactivated or penalized listings surface immediately with root cause tagging.', on:true },
+      { id:'SYS-LST-32', title:'Scheduled Offer File Upload for Myntra', desc:'Automates promotional setups guaranteeing campaign pricing launches on time. Offer files structured and submitted per Myntra\'s API spec on schedule.', on:true },
+      { id:'SYS-LST-33', title:'Region-Based COD Toggling Options', desc:'Restricts delivery access in problematic zones to control fraud variables. COD availability toggled per PIN-code clusters based on historical RTO patterns.', on:true },
+      { id:'SYS-LST-34', title:'One-Click Migration from Previous Integrator', desc:'Guarantees zero system operational downtime during data ingestion. Bulk migration engine imports historical orders, listings, and inventory cleanly.', on:false },
+      { id:'SYS-LST-35', title:'Customizable Automation with API / Webhook Support', desc:'Exposes structural integration pipelines for ERP, WMS, and internal OMS. Full REST and webhook interface layer available for custom trigger logic.', on:true },
+      { id:'SYS-RECON-36', title:'AI-Powered Pre-Fulfillment RTO Probability Scoring Engine', desc:'Evaluates customer metadata, structural anomalies, and buyer profiles to compute real-time RTO risk profiles before fulfillment begins. High-risk orders flagged for COD verification or cancellation.', on:true },
+      { id:'SYS-RECON-37', title:'Automated Interactive COD Verification Loop', desc:'Intercepts high-risk orders and processes real-time verification inputs via WhatsApp interactive buttons prior to allowing label generation and dispatch clearance.', on:true },
+    ]
+  },
+  {
+    id: 4,
+    label: 'Scaling Analytics & Profit Reconciliation',
+    engineCount: 13,
+    automations: [
+      { id:'SYS-ANA-38', title:'Auto-Identify Return Hotspots and Patterns', desc:'Isolates courier, product, or geographical vulnerabilities causing returns. Pattern clustering engine maps return root causes across dimensions for targeted intervention.', on:true },
+      { id:'SYS-ANA-39', title:'Alert on Unsynced Listings or Orders', desc:'Triggers high-priority operational notifications before errors damage top-line revenue. Automated watchdog monitors every sync cycle for anomalous gaps.', on:true },
+      { id:'SYS-ANA-40', title:'Monitor Shipping Delays or RTOs Automatically', desc:'Exposes logistics bottleneck constraints, enforcing transit SLAs. Delay detection engine cross-checks carrier scan events against expected delivery windows.', on:true },
+      { id:'SYS-ANA-41', title:'Profit Per SKU Tracking in Reports', desc:'Surfaces authentic margin-led performance indicators for accurate pricing adjustments. Real COGS, marketplace fees, and shipping costs factored at the SKU level.', on:true },
+      { id:'SYS-ANA-42', title:'Dashboard for Order, Return, and Inventory Overview', desc:'Maintains absolute, multi-departmental visibility over metrics. Unified dashboard aggregates all operational KPIs into a single real-time view.', on:true },
+      { id:'SYS-ANA-43', title:'Find Fast/Slow Moving Inventory + Automate Reordering', desc:'Dynamically tracking velocity variables rather than static thresholds. SKU velocity analysis feeds directly into reorder automation triggers.', on:true },
+      { id:'SYS-ANA-44', title:'Auto-Create Support Ticket from Error Logs', desc:'Automates core system issue detection to maximize systemic runtime. Critical errors in pipeline logs auto-escalate to linked helpdesk systems.', on:false },
+      { id:'SYS-ANA-45', title:'Bulk Dispatch Tools with Error Logs Highlighted', desc:'Resolves large-scale pipeline warnings prior to courier ingestion. Batch dispatch console surfaces actionable errors inline before submission.', on:true },
+      { id:'SYS-ANA-46', title:'Track Returns & RTOs + Automate Claims', desc:'Identifies lost or damaged parcels, automating claims recovery tracking. Every RTO event feeds into the claims pipeline with courier evidence collection.', on:true },
+      { id:'SYS-ANA-47', title:'Track Fulfillment Metrics & Drill-Down KPIs', desc:'Maintains macro and micro visibility over internal warehouse efficiency performance. Drill-down from aggregate metrics to individual order-level execution data.', on:true },
+      { id:'SYS-RECON-48', title:'Marketplace Fee Settlement Reconciliation Engine', desc:'Cross-checks actual bank payouts against platform commission matrices, weight structures, and penalizations to isolate hidden margin overcharges and auto-raise disputes.', on:true },
+      { id:'SYS-SPLIT-49', title:'Demand-Responsive Smart-Split Inventory Distributor', desc:'Utilizes regional demand spikes to suggest inventory allocation changes across local 3PL networks, unlocking Next-Day Delivery mechanics and regional SLA compliance.', on:true },
+      { id:'SYS-VISION-50', title:'Computer Vision Manifest Verification Guard', desc:'Integrates camera verification checkpoints to guarantee structural counts leave physical facilities cleanly matched to documents, eliminating short-shipment disputes.', on:false },
+    ]
+  }
+];
+
+/* ─── TAB & WORKFLOW RENDER ────────────────────────────────── */
+const PAGE_TITLES = [
+  'Omnichannel Order Engine',
+  'Hyper-Local & Multi-Warehouse Logistics',
+  'Predictive Inventory & Procurement',
+  'Listing Matrix & Risk Mitigation',
+  'Scaling Analytics & Profit Reconciliation'
+];
+
+let activeTab = 0;
+let toggleStates = {}; // sysId -> bool
+
+// Pre-populate toggle states from data
+TABS_DATA.forEach(tab => {
+  tab.automations.forEach(a => { toggleStates[a.id] = a.on; });
+});
+
+function renderWorkflow(tabIndex) {
+  const tab = TABS_DATA[tabIndex];
+  const container = document.getElementById('wf-body');
+  const badge = document.getElementById('wf-engine-badge');
+  badge.textContent = `All ${tab.engineCount} Engines Online`;
+
+  const onCount = tab.automations.filter(a => toggleStates[a.id]).length;
+
+  container.innerHTML = `
+    <div class="wf-tab-content active">
+      <ul class="wf-list" role="list" aria-label="${tab.label} automations">
+        ${tab.automations.map((a, i) => buildWfItem(a, i, tab.automations.length)).join('')}
+      </ul>
+    </div>
+  `;
+
+  // Attach toggle listeners
+  tab.automations.forEach(a => {
+    const inp = document.getElementById(`toggle-${a.id}`);
+    if (inp) {
+      inp.addEventListener('change', () => handleToggle(a.id, inp.checked));
+    }
+  });
+}
+
+function buildWfItem(a, index, total) {
+  const isOn = toggleStates[a.id];
+  return `
+    <li class="wf-item" data-sys="${a.id}">
+      ${index > 0 ? '<div class="wf-divider"></div>' : ''}
+      <div class="wf-item-top">
+        <div class="wf-item-left">
+          <div class="wf-status-dot ${isOn ? 'wf-status-dot--on' : 'wf-status-dot--off'}" aria-hidden="true" id="dot-${a.id}"></div>
+          <div class="wf-meta">
+            <span class="wf-title">${a.title}</span>
+            <span class="wf-sys-id" aria-label="System ID: ${a.id}">${a.id}</span>
+          </div>
+        </div>
+        <label class="toggle" aria-label="Toggle ${a.title}">
+          <input type="checkbox" id="toggle-${a.id}" ${isOn ? 'checked' : ''} aria-checked="${isOn}"/>
+          <span class="toggle-track">
+            <span class="toggle-thumb"></span>
+          </span>
+        </label>
+      </div>
+      <p class="wf-desc">${a.desc}</p>
+    </li>
+  `;
+}
+
+function handleToggle(sysId, isOn) {
+  toggleStates[sysId] = isOn;
+
+  // Update dot
+  const dot = document.getElementById(`dot-${sysId}`);
+  if (dot) {
+    dot.className = `wf-status-dot ${isOn ? 'wf-status-dot--on' : 'wf-status-dot--off'}`;
+  }
+
+  // Count active
+  const totalActive = Object.values(toggleStates).filter(Boolean).length;
+  document.getElementById('active-engines').textContent = `${totalActive}/50`;
+  document.getElementById('tb-nodes').textContent = totalActive;
+
+  const tabData = TABS_DATA[activeTab];
+  const tabActive = tabData.automations.filter(a => toggleStates[a.id]).length;
+
+  // Find name
+  const found = TABS_DATA.flatMap(t => t.automations).find(a => a.id === sysId);
+  const shortTitle = found ? found.title.split(' ').slice(0,4).join(' ')+'…' : sysId;
+  showToast(
+    isOn ? `✓ ${shortTitle} activated` : `⏸ ${shortTitle} paused`,
+    isOn ? 'success' : 'warn'
+  );
+
+  // Log to terminal
+  injectTermLine({
+    scope: 'SYS-CTRL',
+    scopeClass: 'term-scope--recon',
+    msg: `Engine <span class="hl">${sysId}</span> → state toggled to <span class="${isOn ? 'success' : 'warn'}">${isOn ? 'ACTIVE' : 'PAUSED'}</span> by admin override.`
+  });
+}
+
+/* ─── TAB SWITCHING ────────────────────────────────────────── */
+function switchTab(tabKey) {
+  // Hide all screens
+  const opsWrapper = document.getElementById('ops-view-wrapper');
+  const settingsWrapper = document.getElementById('settings-view-wrapper');
+  const apiWrapper = document.getElementById('api-view-wrapper');
+  const tabStrip = document.getElementById('tab-strip');
+
+  if (opsWrapper) opsWrapper.style.display = 'none';
+  if (settingsWrapper) settingsWrapper.style.display = 'none';
+  if (apiWrapper) apiWrapper.style.display = 'none';
+  if (tabStrip) tabStrip.style.display = 'none';
+
+  // Deactivate all sidebar navigation links
+  document.querySelectorAll('.sb-nav-item[data-tab]').forEach(el => {
+    el.classList.remove('active');
+    el.setAttribute('aria-selected', 'false');
+  });
+
+  // Deactivate all tab pills
+  document.querySelectorAll('.tab-pill').forEach(el => {
+    el.classList.remove('active');
+    el.setAttribute('aria-selected', 'false');
+  });
+
+  // Check if numeric tab (operational tab)
+  if (typeof tabKey === 'number' || !isNaN(parseInt(tabKey))) {
+    const index = parseInt(tabKey);
+    if (index >= 0 && index <= 4) {
+      activeTab = index;
+
+      if (opsWrapper) opsWrapper.style.display = 'flex';
+      if (tabStrip) tabStrip.style.display = 'flex';
+
+      // Highlight active sidebar item
+      const sbItem = document.querySelector(`.sb-nav-item[data-tab="${index}"]`);
+      if (sbItem) {
+        sbItem.classList.add('active');
+        sbItem.setAttribute('aria-selected', 'true');
+      }
+
+      // Highlight active tab pill
+      const pillItem = document.querySelector(`.tab-pill[data-tab="${index}"]`);
+      if (pillItem) {
+        pillItem.classList.add('active');
+        pillItem.setAttribute('aria-selected', 'true');
+      }
+
+      // Update header title
+      document.getElementById('page-title').textContent = PAGE_TITLES[index];
+
+      // Re-render current workflow matrix
+      renderWorkflow(index);
+    }
+  } else if (tabKey === 'settings') {
+    if (settingsWrapper) settingsWrapper.style.display = 'flex';
+    
+    // Highlight settings in sidebar
+    const sbItem = document.querySelector('.sb-nav-item[data-tab="settings"]');
+    if (sbItem) {
+      sbItem.classList.add('active');
+      sbItem.setAttribute('aria-selected', 'true');
+    }
+
+    document.getElementById('page-title').textContent = 'System Settings';
+  } else if (tabKey === 'api') {
+    if (apiWrapper) apiWrapper.style.display = 'flex';
+
+    // Highlight API in sidebar
+    const sbItem = document.querySelector('.sb-nav-item[data-tab="api"]');
+    if (sbItem) {
+      sbItem.classList.add('active');
+      sbItem.setAttribute('aria-selected', 'true');
+    }
+
+    document.getElementById('page-title').textContent = 'API & Webhooks';
+  }
+}
+
+// Sidebar nav clicks
+document.querySelectorAll('.sb-nav-item[data-tab]').forEach(el => {
+  el.addEventListener('click', () => {
+    switchTab(el.dataset.tab);
+  });
+  el.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }
+  });
+});
+
+// Tab strip clicks
+document.querySelectorAll('.tab-pill').forEach(el => {
+  el.addEventListener('click', () => switchTab(el.dataset.tab));
+});
+
+/* ─── ADMINISTRATIVE INTERACTIONS ───────────────────────────── */
+
+// Slider 1: AI-RTO threshold
+const rtoSlider = document.getElementById('settings-rto-threshold');
+const rtoVal = document.getElementById('settings-rto-val');
+if (rtoSlider && rtoVal) {
+  rtoSlider.addEventListener('input', () => {
+    rtoVal.textContent = `${rtoSlider.value}%`;
+  });
+}
+
+// Slider 2: Polling interval
+const pollSlider = document.getElementById('settings-polling-interval');
+const pollVal = document.getElementById('settings-polling-val');
+if (pollSlider && pollVal) {
+  pollSlider.addEventListener('input', () => {
+    pollVal.textContent = `${pollSlider.value}m`;
+  });
+}
+
+// Save settings configuration
+const saveSettingsBtn = document.getElementById('settings-save-btn');
+if (saveSettingsBtn) {
+  saveSettingsBtn.addEventListener('click', () => {
+    const isSandbox = document.getElementById('settings-sandbox').checked;
+    const isWebhook = document.getElementById('settings-webhook').checked;
+    const isRetry = document.getElementById('settings-retry').checked;
+    const isVerbose = document.getElementById('settings-verbose').checked;
+    const rto = rtoSlider ? rtoSlider.value : '75';
+    const poll = pollSlider ? pollSlider.value : '10';
+    const strategy = document.getElementById('settings-courier-strategy').value;
+
+    showToast('✓ System configuration saved', 'success');
+
+    injectTermLine({
+      scope: 'SYS-CFG',
+      scopeClass: 'term-scope--sync',
+      msg: `Config updated → Sandbox: <span class="hl">${isSandbox.toString().toUpperCase()}</span> | Webhooks: <span class="hl">${isWebhook.toString().toUpperCase()}</span> | Auto-Retry: <span class="hl">${isRetry.toString().toUpperCase()}</span> | Polling: <span class="hl">${poll}m</span> | RTO Intercept: <span class="hl">${rto}%</span> | Strategy: <span class="hl">${strategy}</span>`
+    });
+  });
+}
+
+// Reset settings to defaults
+const resetSettingsBtn = document.getElementById('settings-reset-btn');
+if (resetSettingsBtn) {
+  resetSettingsBtn.addEventListener('click', () => {
+    document.getElementById('settings-sandbox').checked = false;
+    document.getElementById('settings-webhook').checked = true;
+    document.getElementById('settings-retry').checked = true;
+    document.getElementById('settings-verbose').checked = false;
+    
+    if (rtoSlider) {
+      rtoSlider.value = 75;
+      rtoVal.textContent = '75%';
+    }
+    if (pollSlider) {
+      pollSlider.value = 10;
+      pollVal.textContent = '10m';
+    }
+    
+    document.getElementById('settings-courier-strategy').value = 'weighted';
+    document.getElementById('settings-tare-weight').value = 150;
+    document.getElementById('settings-volumetric-divisor').value = 5000;
+
+    showToast('ℹ Configurations reset to factory defaults', 'info');
+
+    injectTermLine({
+      scope: 'SYS-CFG',
+      scopeClass: 'term-scope--sync',
+      msg: 'System configurations reset to factory defaults by administrator.'
+    });
+  });
+}
+
+// Helper to hook API key lists (including copies and revokes)
+function bindApiKeyActions(rowEl) {
+  const copyBtn = rowEl.querySelector('.api-btn-copy');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', () => {
+      const token = copyBtn.getAttribute('data-copy');
+      navigator.clipboard.writeText(token).then(() => {
+        showToast('✓ API Token copied to clipboard', 'success');
+        injectTermLine({
+          scope: 'SEC-AUDIT',
+          scopeClass: 'term-scope--recon',
+          msg: `Token read/copy event registered. Masked key: <span class="hl">${token.slice(0, 12)}••••••••</span>`
+        });
+      }).catch(() => {
+        // Fallback if clipboard API not available (e.g. non-HTTPS/localhost)
+        showToast('✓ API Token copied (Simulation)', 'success');
+      });
+    });
+  }
+
+  const revokeBtn = rowEl.querySelector('.api-btn-revoke');
+  if (revokeBtn) {
+    revokeBtn.addEventListener('click', () => {
+      const desc = rowEl.cells[0].textContent;
+      const statusBadge = rowEl.querySelector('.api-status-badge');
+      if (statusBadge && !statusBadge.classList.contains('api-status-badge--revoked')) {
+        statusBadge.className = 'api-status-badge api-status-badge--revoked';
+        statusBadge.textContent = 'Revoked';
+        revokeBtn.style.opacity = '0.5';
+        revokeBtn.disabled = true;
+        revokeBtn.style.cursor = 'not-allowed';
+
+        showToast('⚠ API Token revoked successfully', 'warn');
+        injectTermLine({
+          scope: 'SEC-AUDIT',
+          scopeClass: 'term-scope--rtd',
+          msg: `WARNING: API Token revoked by administrator. Description: <span class="hl">${desc}</span>. All incoming calls using this token will be blocked.`
+        });
+      }
+    });
+  }
+}
+
+// Bind existing key actions
+document.querySelectorAll('#api-keys-tbody tr').forEach(row => {
+  bindApiKeyActions(row);
+});
+
+// HTML Sanitization helper
+function escapeHtml(str) {
+  if (typeof str !== 'string') return '';
+  return str.replace(/[&<>"']/g, function(m) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+  });
+}
+
+// Generate new API Secret Token
+const generateKeyBtn = document.getElementById('btn-generate-api-key');
+if (generateKeyBtn) {
+  generateKeyBtn.addEventListener('click', () => {
+    const rawDesc = prompt('Enter a description/label for the new API key:', 'Third-Party ERP Sync Link');
+    if (!rawDesc) return;
+    const desc = escapeHtml(rawDesc.trim());
+
+    const randomHex = Array.from({length:16}, () => Math.floor(Math.random()*16).toString(16)).join('');
+    const fullToken = `nx_live_${randomHex}`;
+    const maskedToken = `nx_live_${randomHex.slice(0,4)}••••••••${randomHex.slice(-3)}`;
+    const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+
+    const tbody = document.getElementById('api-keys-tbody');
+    if (tbody) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td style="font-weight:600; color:var(--txt);">${desc}</td>
+        <td><span class="api-key-code">${maskedToken}</span></td>
+        <td>${today}</td>
+        <td><span class="api-status-badge api-status-badge--active">Active</span></td>
+        <td style="text-align: right; display:flex; justify-content: flex-end; gap:8px; padding-top: 16px;">
+          <button class="api-btn-copy" title="Copy Key" data-copy="${escapeHtml(fullToken)}">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1.5" y="3.5" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M3.5 1.5H8.5C9.6 1.5 10.5 2.4 10.5 3.5V8.5" stroke="currentColor" stroke-width="1.2"/></svg>
+          </button>
+          <button class="api-btn-revoke">Revoke</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+      bindApiKeyActions(tr);
+
+      showToast('✓ New API Token generated', 'success');
+      injectTermLine({
+        scope: 'SEC-AUDIT',
+        scopeClass: 'term-scope--recon',
+        msg: `SUCCESS: Generated new secret token for description: <span class="hl">${desc}</span>`
+      });
+    }
+  });
+}
+
+// Add Outgoing Webhook endpoint
+const addWebhookBtn = document.getElementById('btn-add-webhook');
+if (addWebhookBtn) {
+  addWebhookBtn.addEventListener('click', () => {
+    const urlInput = document.getElementById('webhook-url');
+    if (!urlInput) return;
+    const url = urlInput.value.trim();
+
+    if (!url || (!url.startsWith('http://') && !url.startsWith('https://'))) {
+      showToast('⚠ Please enter a valid HTTP/HTTPS URL', 'warn');
+      return;
+    }
+
+    // Get checked events
+    const checkedEvents = [];
+    ['ev-order-created', 'ev-order-rtd', 'ev-inventory-low', 'ev-shipment-status', 'ev-recon-mismatch'].forEach(id => {
+      const cb = document.getElementById(id);
+      if (cb && cb.checked) {
+        checkedEvents.push(cb.nextElementSibling.textContent);
+      }
+    });
+
+    if (checkedEvents.length === 0) {
+      showToast('⚠ Please select at least one trigger event', 'warn');
+      return;
+    }
+
+    showToast('✓ Webhook endpoint registered', 'success');
+    injectTermLine({
+      scope: 'SYS-OUT',
+      scopeClass: 'term-scope--sync',
+      msg: `Webhook registered → URL: <span class="hl">${escapeHtml(url)}</span> | Subscriptions: <span class="hl">${checkedEvents.map(escapeHtml).join(', ')}</span>`
+    });
+
+    urlInput.value = '';
+  });
+}
+
+/* ─── LIVE CLOCK ───────────────────────────────────────────── */
+function updateClock() {
+  const n = new Date();
+  const pad = v => String(v).padStart(2,'0');
+  document.getElementById('tb-clock').textContent =
+    `${pad(n.getHours())}:${pad(n.getMinutes())}:${pad(n.getSeconds())} IST`;
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+/* ─── SYNC RATE FLUCTUATION ────────────────────────────────── */
+let syncRate = 4850;
+function fluctuateSyncRate() {
+  const delta = Math.floor(Math.random() * 220) - 80;
+  syncRate = Math.max(4200, Math.min(5800, syncRate + delta));
+  const el = document.getElementById('tb-apm');
+  if (el) el.textContent = syncRate.toLocaleString('en-IN');
+}
+setInterval(fluctuateSyncRate, 3000);
+
+/* ─── TERMINAL LOG STREAM ──────────────────────────────────── */
+const TB = document.getElementById('terminal-body');
+let termLineCount = 0;
+let termTotal = 4850;
+let termPaused = false;
+const MAX_LINES = 80;
+
+const LOG_POOL = [
+  { scope:'OMNI-SYNC',   cls:'term-scope--sync',    msg:'Polled <span class="hl">Amazon SP-API</span> → Received <span class="accent">12</span> new order events. Mapping dispatch states to internal queue. Latency: <span class="hl">142ms</span>.' },
+  { scope:'AWB-ALLOC',   cls:'term-scope--courier',  msg:'Auto-assigned AWB <span class="hl">#BD-{rand4}</span> to <span class="accent">BlueDart</span>. Target weight: <span class="hl">{w}kg</span>. Zone A pricing rule matched. Label queued.' },
+  { scope:'INV-SYNC',    cls:'term-scope--inv',       msg:'Inventory pool recalculated — SKU <span class="hl">NX-{rand4}</span>: WH-Delhi <span class="success">+{q1}</span>, WH-Mumbai <span class="warn">-{q2}</span>, WH-BLR <span class="warn">-{q3}</span>.' },
+  { scope:'RTO-RISK',    cls:'term-scope--risk',      msg:'RTO Probability Engine scored order <span class="hl">#FK-{rand5}</span> → Risk: <span class="danger">HIGH ({rto}%)</span>. COD verification loop initiated via WhatsApp.' },
+  { scope:'OMNI-SYNC',   cls:'term-scope--sync',      msg:'Fetched <span class="accent">{qty}</span> orders from <span class="hl">Shopify REST Feed</span>. IDs mapped: <span class="hl">#SH-{r1}</span> → <span class="hl">#SH-{r2}</span>. Queue depth: OK.' },
+  { scope:'LIST-SYNC',   cls:'term-scope--list',      msg:'Live price sync applied to <span class="accent">{sku}</span> SKUs across Myntra and Meesho. Price delta max: <span class="hl">₹{price}</span>. Propagation complete in <span class="hl">0.8s</span>.' },
+  { scope:'PO-ENGINE',   cls:'term-scope--inv',       msg:'Velocity threshold breached — SKU <span class="hl">NX-{rand4}</span>. Auto-drafted PO to manufacturer <span class="hl">Mfg-Ref-{mfg}</span>. Qty: <span class="accent">{q1} units</span>. Pending approval.' },
+  { scope:'RECON-48',    cls:'term-scope--recon',     msg:'Fee reconciliation complete for settlement <span class="hl">STL-{rand5}</span>. Discrepancy detected: <span class="danger">₹{fee}</span> overcharged. Dispute draft queued.' },
+  { scope:'AWB-ALLOC',   cls:'term-scope--courier',   msg:'Manifest auto-generated for warehouse <span class="hl">WH-DEL-04</span>. <span class="accent">{qty}</span> shipments. Courier: <span class="hl">Shiprocket</span>. Handover ETA: <span class="success">On-Time</span>.' },
+  { scope:'COD-VERIFY',  cls:'term-scope--risk',      msg:'WhatsApp interactive prompt dispatched to <span class="hl">+91 97XXX-XXXXX</span> for order <span class="hl">#AMZ-{rand5}</span>. Lifecycle timer: <span class="accent">12h</span>. Awaiting reply...' },
+  { scope:'INV-SYNC',    cls:'term-scope--inv',       msg:'Stock reservation applied — <span class="hl">{q1} units</span> of SKU <span class="hl">NX-{rand4}</span> locked for pending orders. Available count updated across all channels.' },
+  { scope:'OMNI-SYNC',   cls:'term-scope--sync',      msg:'Flipkart RTD batch processed — <span class="accent">{qty}</span> orders marked RTD. Manifests auto-filed. Courier pickup scheduled: <span class="hl">Tomorrow 09:30 IST</span>.' },
+  { scope:'SPLIT-49',    cls:'term-scope--recon',     msg:'Smart-split engine reallocated <span class="accent">{q1} units</span> from WH-Mumbai to WH-Hyderabad based on regional demand surge. Next-day SLA maintained.' },
+  { scope:'LIST-SYNC',   cls:'term-scope--list',      msg:'Deactivated listing detected — SKU <span class="hl">NX-{rand4}</span> on <span class="hl">Amazon</span>. Root cause: <span class="warn">Price policy violation</span>. Alert triggered to ops team.' },
+];
+
+function rnd(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+function pad4() { return String(rnd(1000,9999)); }
+function pad5() { return String(rnd(10000,99999)); }
+
+function hydrate(template) {
+  return template
+    .replace(/{rand4}/g, pad4)
+    .replace(/{rand5}/g, pad5)
+    .replace(/{w}/g, () => (rnd(5,450)/100).toFixed(2))
+    .replace(/{qty}/g, () => rnd(3,24))
+    .replace(/{q1}/g, () => rnd(40,200))
+    .replace(/{q2}/g, () => rnd(10,80))
+    .replace(/{q3}/g, () => rnd(5,50))
+    .replace(/{sku}/g, () => rnd(14,120))
+    .replace(/{price}/g, () => rnd(2,48))
+    .replace(/{fee}/g, () => (rnd(80,4800)).toLocaleString('en-IN'))
+    .replace(/{mfg}/g, () => rnd(1,20))
+    .replace(/{rto}/g, () => rnd(72,96))
+    .replace(/{r1}/g, () => rnd(90000,99990))
+    .replace(/{r2}/g, () => rnd(90000,99990));
+}
+
+function getNowTs() {
+  const n = new Date();
+  const p = v => String(v).padStart(2,'0');
+  return `${p(n.getHours())}:${p(n.getMinutes())}:${p(n.getSeconds())}.${String(n.getMilliseconds()).padStart(3,'0')}`;
+}
+
+function injectTermLine(entry) {
+  if (!TB) return;
+  const row = document.createElement('div');
+  row.className = 'term-line';
+  const scope = entry.scopeClass || 'term-scope--sync';
+  const scopeLabel = entry.scope || 'SYSTEM';
+  row.innerHTML = `
+    <span class="term-ts">${getNowTs()}</span>
+    <span class="term-scope ${scope}">${scopeLabel}</span>
+    <span class="term-msg">${entry.msg}</span>
+  `;
+  TB.insertBefore(row, TB.firstChild);
+
+  termLineCount++;
+  termTotal++;
+
+  // Prune
+  while (TB.children.length > MAX_LINES) {
+    TB.removeChild(TB.lastChild);
+  }
+
+  // Update counter
+  const cnt = document.getElementById('term-count');
+  const tot = document.getElementById('term-total');
+  if (cnt) cnt.innerHTML = `Showing <strong>${Math.min(termLineCount, MAX_LINES)}</strong> of <strong id="term-total">${termTotal.toLocaleString('en-IN')}</strong> trace events`;
+}
+
+// Boot lines
+const BOOT_LINES = [
+  { scope:'SYS-BOOT',  cls:'term-scope--sync',   msg:'<span class="success">NexusOS v2.0 initialized</span>. Loading 50 automation engines across 5 operational modules...' },
+  { scope:'SYS-BOOT',  cls:'term-scope--sync',   msg:'Marketplace connections established: <span class="accent">Amazon · Flipkart · Shopify · Myntra · Meesho</span>. All APIs responding.' },
+  { scope:'SYS-BOOT',  cls:'term-scope--inv',    msg:'Inventory pool engine calibrated. <span class="accent">3</span> warehouses mapped. Real-time sync activated across all channels.' },
+  { scope:'SYS-BOOT',  cls:'term-scope--risk',   msg:'AI-RTO Probability Engine loaded. Model: <span class="hl">NexusRisk-v4.2</span>. Threshold: <span class="accent">72%</span>. Ready to intercept.' },
+  { scope:'SYS-BOOT',  cls:'term-scope--recon',  msg:'Fee Reconciliation Engine <span class="hl">SYS-RECON-48</span> connected to settlement ledger. Watchdog active.' },
+  { scope:'SYS-BOOT',  cls:'term-scope--sync',   msg:'All <span class="success">50 automation nodes</span> online. Pipeline running. Awaiting first webhook ingest cycle...' },
+];
+// Inject boot lines in reverse (newest first in our UI)
+[...BOOT_LINES].reverse().forEach((l, i) => {
+  setTimeout(() => injectTermLine({ scope: l.scope, scopeClass: l.cls, msg: l.msg }), i * 180);
+});
+
+// Stream live logs
+function scheduleNextLog() {
+  const delay = termPaused ? 0 : (4000 + Math.random() * 5000);
+  setTimeout(() => {
+    if (!termPaused) {
+      const t = LOG_POOL[rnd(0, LOG_POOL.length - 1)];
+      injectTermLine({ scope: t.scope, scopeClass: t.cls, msg: hydrate(t.msg) });
+    }
+    scheduleNextLog();
+  }, delay);
+}
+setTimeout(scheduleNextLog, 3000);
+
+/* Pause/Resume */
+const pauseBtn = document.getElementById('pause-btn');
+if (pauseBtn) {
+  pauseBtn.addEventListener('click', () => {
+    termPaused = !termPaused;
+    if (termPaused) {
+      pauseBtn.innerHTML = `<svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 1.5L9.5 5.5L2 9.5V1.5Z" fill="currentColor"/></svg> Resume Stream`;
+      pauseBtn.style.cssText = 'color:var(--amber);border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.08)';
+      showToast('⏸ Log stream paused', 'warn');
+    } else {
+      pauseBtn.innerHTML = `<svg width="11" height="11" viewBox="0 0 11 11" fill="none"><rect x="1.5" y="1.5" width="2.5" height="8" rx=".6" fill="currentColor"/><rect x="7" y="1.5" width="2.5" height="8" rx=".6" fill="currentColor"/></svg> Pause Stream`;
+      pauseBtn.style.cssText = '';
+      showToast('▶ Log stream resumed', 'success');
+    }
+  });
+}
+
+/* Export */
+document.getElementById('export-btn')?.addEventListener('click', () => {
+  const lines = [...TB.querySelectorAll('.term-line')].map(row => {
+    const ts = row.querySelector('.term-ts')?.textContent || '';
+    const scope = row.querySelector('.term-scope')?.textContent || '';
+    const msg = row.querySelector('.term-msg')?.textContent?.replace(/\s+/g,' ').trim() || '';
+    return `"${ts}","${scope}","${msg}"`;
+  });
+  const csv = ['Timestamp,Scope,Message', ...lines].join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `nexusos-trace-${Date.now()}.csv`;
+  a.click(); URL.revokeObjectURL(url);
+  showToast('✓ Trace log exported as CSV', 'success');
+});
+
+/* ─── TOAST NOTIFICATIONS ──────────────────────────────────── */
+function showToast(msg, type = 'info', dur = 3200) {
+  const wrap = document.getElementById('toast-wrap');
+  const t = document.createElement('div');
+  t.className = `toast toast--${type}`;
+  t.textContent = msg;
+  wrap.appendChild(t);
+  setTimeout(() => {
+    t.classList.add('fade-out');
+    t.addEventListener('animationend', () => t.remove(), { once: true });
+  }, dur);
+}
+
+/* ─── COUNT-UP ANIMATIONS ──────────────────────────────────── */
+function countUp(el, target, dur, decimals = 0, suffix = '') {
+  const start = performance.now();
+  function tick(now) {
+    const p = Math.min((now - start) / dur, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    const v = (ease * target).toFixed(decimals);
+    el.innerHTML = v + suffix;
+    if (p < 1) requestAnimationFrame(tick);
+    else el.innerHTML = target.toFixed(decimals) + suffix;
+  }
+  requestAnimationFrame(tick);
+}
+
+setTimeout(() => {
+  const nodesEl = document.querySelector('#kpi-nodes');
+  if (nodesEl) {
+    const span = nodesEl.innerHTML.includes('span') ? '<span> active</span>' : '';
+    let start = performance.now();
+    function tick(now) {
+      const p = Math.min((now-start)/1200, 1);
+      const e = 1-Math.pow(1-p,3);
+      nodesEl.innerHTML = Math.floor(e*50) + '<span> active</span>';
+      if (p<1) requestAnimationFrame(tick);
+      else nodesEl.innerHTML = '50<span> active</span>';
+    }
+    requestAnimationFrame(tick);
+  }
+
+  const hoursEl = document.querySelector('#kpi-hours');
+  if (hoursEl) {
+    let start = performance.now();
+    function tick(now) {
+      const p = Math.min((now-start)/1400, 1);
+      const e = 1-Math.pow(1-p,3);
+      hoursEl.innerHTML = Math.floor(e*238) + '<span> hrs/wk</span>';
+      if (p<1) requestAnimationFrame(tick);
+      else hoursEl.innerHTML = '238<span> hrs/wk</span>';
+    }
+    requestAnimationFrame(tick);
+  }
+
+  const syncEl = document.querySelector('#kpi-sync');
+  if (syncEl) {
+    let start = performance.now();
+    function tick(now) {
+      const p = Math.min((now-start)/1600, 1);
+      const e = 1-Math.pow(1-p,3);
+      syncEl.innerHTML = (97 + e*2.97).toFixed(2) + '<span>%</span>';
+      if (p<1) requestAnimationFrame(tick);
+      else syncEl.innerHTML = '99.97<span>%</span>';
+    }
+    requestAnimationFrame(tick);
+  }
+
+  const riskEl = document.querySelector('#kpi-risk');
+  if (riskEl) {
+    let start = performance.now();
+    function tick(now) {
+      const p = Math.min((now-start)/1300, 1);
+      const e = 1-Math.pow(1-p,3);
+      riskEl.innerHTML = Math.floor(e*1284).toLocaleString('en-IN') + '<span> orders</span>';
+      if (p<1) requestAnimationFrame(tick);
+      else riskEl.innerHTML = '1,284<span> orders</span>';
+    }
+    requestAnimationFrame(tick);
+  }
+}, 400);
+
+/* ─── INITIAL RENDER ───────────────────────────────────────── */
+const urlParams = new URLSearchParams(window.location.search);
+const initialTabParam = urlParams.get('tab');
+if (initialTabParam) {
+  switchTab(initialTabParam);
+} else {
+  renderWorkflow(0);
+}
+
+console.info('[NexusOS v2.0] Enterprise Automation OS initialized. 50 engines active. 5 modules loaded.');
+</script>
+</body>
+</html>
